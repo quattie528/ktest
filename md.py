@@ -10,7 +10,7 @@ import pprint
 #
 #from datsun import *
 import xz
-import kbench
+#import kbench
 #
 
 # Big Data [EN], Massendaten [DE], megadonnées [FR]

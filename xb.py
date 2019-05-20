@@ -9,7 +9,7 @@
 #
 from datsun import *
 import xz
-import kbench
+#import kbench
 #
 #1:battery,2:pip,3:mygen,4:myopus
 

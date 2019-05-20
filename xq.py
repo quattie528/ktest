@@ -14,7 +14,7 @@ import sys
 #from datsun import *
 #import xz
 import xkr
-import kbench
+#import kbench
 
 ### VARIABLES ###
 DEBUG = True

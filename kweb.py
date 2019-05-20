@@ -5,7 +5,7 @@ import requests
 import sys
 import re
 import time
-import kbench
+#import kbench
 import platform
 #
 import webbrowser as wb
@@ -54,12 +54,12 @@ def url2html(addr):
 	html = html.replace('http', 'hhttp' )
 	return html
 
-def urls2html(feile,ex='a.html'):
+def urls2html(datei,ex='a.html'):
 	import datetime
 	import random
 	#
-	lis = xz.txt2lis(feile)
-	print( 'GEHEN ZU HANDEL ... "%s" ' % feile )
+	lis = xz.txt2lis(datei)
+	print( 'GEHEN ZU HANDEL ... "%s" ' % datei )
 #	w = len(lis) * wart_max # 2016-07-10
 	w = len(lis) * (wart_max+wart_min) / 2
 	wv = str(datetime.timedelta(seconds=w))
@@ -77,20 +77,20 @@ def urls2html(feile,ex='a.html'):
 			xu.sleep(m)
 	sys.stdout.write('Ausgabe als %s\n' % ex)
 
-def urls2htmls(feile,wurzel=WURZEL):
+def urls2htmls(datei,pfad4ex):
 	import datetime
 	import random
 	#
 	if os.name == 'nt':
-		assert ':' in wurzel
+		assert ':' in pfad4ex
 	elif os.name == 'posix':
-		assert wurzel[0] == '/'
-	wurzel = wurzel.replace('\\','/')
-	if not os.path.exists(wurzel):
-		os.mkdir(wurzel)
+		assert pfad4ex[0] == '/'
+	pfad4ex = pfad4ex.replace('\\','/')
+	if not os.path.exists(pfad4ex):
+		os.mkdir(pfad4ex)
 	#
-	tbl = xz.txt2tbl(feile)
-	print( 'GEHEN ZU HANDEL ... "%s" ' % feile )
+	tbl = xz.txt2tbl(datei)
+	print( 'GEHEN ZU HANDEL ... "%s" ' % datei )
 	w = len(tbl) * (wart_max+wart_min) / 2
 	wv = str(datetime.timedelta(seconds=w))
 	print( 'DAS NIMMT : %s sec = %s" ' % (w,wv) )
@@ -99,7 +99,7 @@ def urls2htmls(feile,wurzel=WURZEL):
 	for i,lis in enumerate(tbl):
 		addr = lis.pop(0)
 		dest = lis.pop(0)
-		dest= wurzel + dest
+		dest= pfad4ex + dest
 		#
 		if os.path.exists(dest): continue
 		#

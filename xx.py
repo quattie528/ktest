@@ -10,7 +10,7 @@ import shutil
 import pprint
 #
 import xz
-import kbench
+#import kbench
 
 ### VARIABLES ###
 debug = True
@@ -41,7 +41,7 @@ read_only : off --> 4.0746 secs
 read_only : on  --> more than 60 secs (gave up to bench it)
 	"""
 	### VORBEREITUNG ###
-	bench = kbench.stoppuhr()
+#	bench = kbench.stoppuhr()
 	options = {
 		'data_only' : True,
 		'use_iterators'  : True,

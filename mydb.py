@@ -12,7 +12,7 @@ import mysql.connector
 #from datsun import *
 import xz
 import mich.dbenv as dbdb
-import kbench
+#import kbench
 #
 #1:battery,2:pip,3:mygen,4:myopus
 
