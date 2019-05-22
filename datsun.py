@@ -3,9 +3,23 @@
 ### MODULES ###
 import os
 import re
+import sys
 import clipboard
 import xt
 #from xz import * # NEVER USE IT
+
+#
+
+#############
+### DRITT ###
+#############
+try:
+	from datsun1 import *
+except ModuleNotFoundError:
+	def usage(x):
+		return sys.argv[1]
+	def w2m(x):
+		return x
 
 #
 
@@ -226,6 +240,20 @@ def rahmen(x,sym="#",bugel=False):
 
 #
 
+###########################
+### MY TEMPORARY FOLDER ###
+###########################
+def mytmp():
+#	import tempfile
+	if os.name == 'nt':
+		pfad = 'C:/Users/{}/AppData/Local/Temp/'
+		pfad = pfad.format(os.getlogin())
+	elif os.name == 'posix':
+		pfad = '/tmp/'
+	return pfad
+
+#
+
 ##### DIREKT ###############
 if __name__=='__main__':
 	import sys
@@ -237,4 +265,5 @@ if __name__=='__main__':
 		x = methods('')
 		print( x )
 	elif mode == 2:
-		pass
+		x = mytmp()
+		print( x )
