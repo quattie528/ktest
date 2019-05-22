@@ -327,3 +327,4 @@ These 2 files are similar but messed
 ONE DAY I HAVE TO DO "xf.py" + "xo.py" + "dir.py"
 These 2 files are similar but messed
 """
+#C:\Users\kakagami\AppData\Local\Temp

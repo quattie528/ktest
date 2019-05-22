@@ -6,7 +6,10 @@ import re
 import sys
 import clipboard
 import xt
+import dritt
 #from xz import * # NEVER USE IT
+
+labomi = dritt.EINGRIFF
 
 #
 
