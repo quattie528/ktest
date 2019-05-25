@@ -9,7 +9,7 @@ import mysql.connector
 #import sqlalchemy as sa
 #import clipboard
 #
-#from datsun import *
+from datsun import *
 import xz
 import mich.dbenv as dbdb
 #import kbench

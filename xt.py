@@ -6,6 +6,9 @@
 """
 [ERKLÄRUNG]
 Hier, ich nutze Englisch für Symbols als {d:date, t.time, y:year}
+
+[ACHTUNG!!!]
+Verwenden niemals meine eigenen externen Module
 """
 
 ### MODULES ###
@@ -25,7 +28,8 @@ import calendar
 #print(dt.now())
 
 N2QTABLE = {}
-N2QBIN = 'conf/im2q.bin'
+N2QBIN = os.path.dirname(__file__) + '/'
+N2QBIN += 'conf/im2q.bin'
 M2STABLE = {}
 
 """

@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+"""
+[ACHTUNG!!!] Verwenden niemals meine eigenen externen Module
+"""
+
 ### MODULES ###
 import datetime as dt
 import io
@@ -9,8 +13,10 @@ import pickle
 import re
 import sys
 import time
-from datsun import *
-from xzplus import *
+from datsun import * # Ausnahme für die Achtung
+from xzplus import * # Ausnahme für die Achtung
+
+#
 
 ### VARIABLES ###
 notice = True
@@ -793,11 +799,15 @@ def bin2erb(bin,etc):
 
 ### VALUE for SHOW ###
 def value4show(v):
+
 	if ( isinstance(v, int) ):
-		return commify( v )
+		v = commify( v )
+		return v
 	elif ( isinstance(v, str) ):
 		if v.isdigit():
-			return commify( v )
+#			print( type(v),v ) #d
+			v = commify( v )
+			return v
 		else:
 			return v
 	else:
@@ -1091,7 +1101,6 @@ def tbl2csv(tbl,ausgabe):
 #			pass #d
 	gh.close()
 
-
 #
 
 ##########################
@@ -1288,13 +1297,13 @@ def dlis2tbl(dlis,kopfer):
 			menge = len(lis)
 			continue
 		assert len(lis) == menge
-	
+
 	res = []
 	for k in kopfer:
 		lis = [ x for x in dlis[k] ]
 		lis.insert(0,k)
 		res.append(lis)
-	
+
 	res = transpose(res)
 	return res
 

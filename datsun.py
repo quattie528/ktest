@@ -1,21 +1,30 @@
 #!/usr/bin/python
 
+"""
+[ACHTUNG!!!] Verwenden niemals meine eigenen externen Module
+"""
+
 ### MODULES ###
 import os
+import pprint
 import re
 import sys
 import clipboard
-import xt
-import dritt
+#
+#import dritt
+#import xt # NEVER USE IT
 #from xz import * # NEVER USE IT
 
-labomi = dritt.EINGRIFF
+#pprint.pprint( sys.path )
+#exit()
+#labomi = dritt.eingriff()
 
 #
 
 #############
 ### DRITT ###
 #############
+"""
 try:
 	from datsun1 import *
 except ModuleNotFoundError:
@@ -23,6 +32,38 @@ except ModuleNotFoundError:
 		return sys.argv[1]
 	def w2m(x):
 		return x
+"""
+
+### USAGE ###
+def usage(x):
+	import sys
+	if len(sys.argv) == 1:
+		x = x.replace('.py','')
+		w = os.path.dirname(__file__)
+		w = 'in/9/%s.txt' % x
+		if not os.path.exists(w):
+			w = 'D:/adel/in/9/%s.txt' % x
+			if not os.path.exists(w):
+				print('no args, no usage explanation')
+				exit()
+		with open(w, 'r',encoding='utf-8') as f: x = f.read()
+		x = '-'*50 + "\n" + x
+		print(x)
+		exit() # 2018-12-09
+	else:
+		if sys.argv[1].isdigit():
+			return int( sys.argv[1] )
+		else:
+			return sys.argv[1]
+
+### W zu Mac ###
+def w2m(x):
+	import platform
+	if not platform.uname()[1] == 'mac.local':
+		return x
+#	x = x.replace('','')
+	x = x.replace('D:/onedrive/','/User/user/OneDrive/')
+	return x
 
 #
 
@@ -260,7 +301,7 @@ def mytmp():
 ##### DIREKT ###############
 if __name__=='__main__':
 	import sys
-	mode = 2
+	mode = 3
 	if mode == 1:
 	#   compfile(sys.argv[1],sys.argv[2])
 	#   x = letztedatei(weg)
@@ -270,3 +311,8 @@ if __name__=='__main__':
 	elif mode == 2:
 		x = mytmp()
 		print( x )
+	elif mode == 3:
+		x = 111111
+		print( 222 )
+		y = commify(x)
+		print( y )

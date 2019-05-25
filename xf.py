@@ -8,7 +8,7 @@ import pprint
 #
 #import attrdict
 #
-#from datsun import *
+from datsun import *
 import xt
 #import kbench
 #

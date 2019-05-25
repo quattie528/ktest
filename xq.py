@@ -11,7 +11,7 @@ import sys
 #import simplecrypt
 #pip install simple-crypt
 #
-#from datsun import *
+from datsun import *
 #import xz
 import xkr
 #import kbench

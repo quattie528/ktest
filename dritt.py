@@ -1,24 +1,17 @@
 #!/usr/bin/python
 
+"""
+[ACHTUNG!!!] Verwenden niemals meine eigenen externen Module
+"""
+
 ### MODULES ###
-#import datetime
+import datetime
 import os
 #import pprint
 #
 #import clipboard
 #import attrdict
-#
-#from datsun import *
-import xt
-import xf
-import xz
-import kbench
-#
-#1:battery,2:pip,3:mygen,4:myopus
 
-### VARIABLES ###
-DEBUG = True
-DEBUG = False
 #
 
 ###############################
@@ -47,18 +40,24 @@ def tempordnersuche():
 ### WELCHER BROWSER ###
 #######################
 def which_browser():
+
+	### MODULE ###
+	import xf
+	import xz
+
 	pfad1 = 'C:/Program Files/'
 	pfad2 = 'C:/Program Files (x86)/'
-	ausgabe = EINGRIFF + 'browser.bin'
+	ausgabe = eingriff() + 'browser.bin'
 
 	if os.path.exists(ausgabe):
 		res = xz.bin2obj(ausgabe)
 #		print( 111 ) #d
-		if ['heute'] == xt.heute():
+		if ['heute'] == datetime.date.today():
 			return True
 
+	### HAUPT ###
 	res = {}
-	res['heute'] = xt.heute()
+	res['heute'] = datetime.date.today()
 	for pfad in [pfad1,pfad2]:
 		ds = xf.get_all_files(pfad)
 		for d in ds:
@@ -73,6 +72,8 @@ def which_browser():
 #				print( d )
 				res['firefox'] = d
 				break
+
+	### AUSGABE ###
 	xz.obj2bin(res,ausgabe)
 
 #
@@ -80,10 +81,13 @@ def which_browser():
 ################
 ### KONSTANT ###
 ################
-EINGRIFF = tempordnersuche() + 'labomi/'
+def eingriff():
+	return tempordnersuche() + 'labomi/'
 
 #
 
 ##### DIREKT ###############
 if __name__=='__main__':
-	kbench.enfin(False,'')
+	print( eingriff() )
+#	which_browser()
+#C:\Users\kakagami\AppData\Local\Temp\labomi\

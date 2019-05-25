@@ -6,7 +6,7 @@
 #
 #import attrdict
 #
-#from datsun import *
+from datsun import *
 import xz
 #import kbench
 #

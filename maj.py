@@ -8,7 +8,7 @@ import os
 #import clipboard
 #import attrdict
 #
-#from datsun import *
+from datsun import *
 import xt
 import xf
 import xz
