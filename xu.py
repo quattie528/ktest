@@ -17,7 +17,9 @@ if os.name == 'nt':
 	#print( BildschirmX )
 	#print( BildschirmY )
 elif os.name == 'posix':
-	pass
+	BildschirmX = 777
+	BildschirmY = 777
+
 
 ### FEW BUTTON ###
 def fewbutton(times,key,press=''):
@@ -47,6 +49,12 @@ def skey(key):
 	pgui.press(key)
 	pgui.keyUp('shift')
 
+### COMMAND KEY ###
+def mkey(key):
+	pgui.keyDown('command')
+	pgui.press(key)
+	pgui.keyUp('command')
+
 ### CTRL-SHIFT KEY ###
 def cskey(key):
 	pgui.keyDown('ctrl')
@@ -74,7 +82,11 @@ def copyall():
 ### SLEEP ###
 def sleep(sek):
 	pgui.moveTo(BildschirmX,BildschirmY)
-	pgui.moveTo(77,77,sek)
+	if sek < 8:
+		pgui.moveTo(2,2,sek)
+	else:
+		pgui.moveTo(2,2,8)
+		pgui.moveTo(2,2,sek-8)
 
 ### CLICK ###
 def click(x,y):

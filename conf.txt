@@ -1,0 +1,4 @@
+inconf: X:/conf_folder/
+labomi: C:/Users/[maybe_your_name]/AppData/Local/Temp/
+mydata: X:/data_folder/
+myname: yourhostname

@@ -79,4 +79,4 @@ def encoreD(name,dossier):
 ##### DIREKT ###############
 if __name__=='__main__':
 	timbre()
-	kbench.enfin(False,'')
+	kbench.enfin()

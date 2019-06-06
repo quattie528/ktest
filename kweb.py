@@ -28,7 +28,7 @@ wart_max = 20
 wart_min = 10 # EDGAR @ 2018-08-09
 wart_max = 30
 
-#
+NACHLADEN = 'C:/Users/Katsushi/Downloads/'
 
 #
 
@@ -123,8 +123,9 @@ def url2datei(url,ausgabe):
 	datei = re.sub('.+/','',url)
 	datei = NACHLADEN + datei
 	teil = datei + '.part'
+	ausgabe2 = NACHLADEN + ausgabe
 	if os.path.exists(datei):
-		shutil.move(datei,ausgabe)
+		shutil.move(datei,ausgabe2)
 		x = 'Bewegt %s...' % ausgabe
 		print( x )
 		return True
@@ -175,7 +176,10 @@ def url2datei(url,ausgabe):
 	pgui.press('w')
 	pgui.keyUp('ctrl')
 	#
-	shutil.move(datei,ausgabe)
+#	print( datei ) #d
+#	print( ausgabe ) #d
+	shutil.move(datei,ausgabe2)
+#	exit() #d
 
 #
 

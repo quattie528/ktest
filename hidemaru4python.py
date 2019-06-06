@@ -212,7 +212,8 @@ def thislookup(sache,dicfile):
 #	print( os.getcwd() ) #d
 #	print( dicfile ) #d
 	if not os.path.exists(dicfile):
-		dicfile = 'ad/ag/' + dicfile
+#		dicfile = 'ad/ag/' + dicfile
+		dicfile = 'D:/adel/ager/' + dicfile
 	dic = xz.txt2dic(dicfile)
 	res = []
 	for x in sache:

@@ -173,6 +173,8 @@ def g2y(x):
 		return 1988
 	elif x == '令和':
 		return 2018
+	elif x == '民國':
+		return 1911
 	elif x == 'M':
 		return 1867
 	elif x == 'T':
@@ -219,12 +221,12 @@ def d2sg(x):
 	return z
 
 def sj2d(x):
-	gengou = '(明治|大正|昭和|平成|令和)'
-	jmt = '\s*(\d{1,2})年\s*(\d{1,2})月\s*(\d{1,2})日'
+	gengou = '(明治|大正|昭和|平成|令和|民國)'
+	jmt = '\s*(\d{1,3})年\s*(\d{1,3})月\s*(\d{1,3})日'
 	m = re.findall(gengou+jmt,x)
 	if len(m) == 0:
 		gengou = ''
-		jmt = '()(\d{4})年(\d{1,2})月(\d{1,2})日'
+		jmt = '()(\d{4})年(\d{1,3})月(\d{1,3})日'
 		m = re.findall(gengou+jmt,x)
 		if len(m) == 0:
 			return x

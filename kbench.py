@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
 ### MODULES ###
-import os
-import pprint
-import copy
+#import os
+#import pprint
+#import copy
 import datetime
 import platform
 import xz
@@ -11,138 +11,60 @@ import xt
 import sys
 #import time
 from datsun import *
+from loch import *
+
+#../vexus/kbench_2019-06-05.py
 
 ### KONSTANT ###
-init = datetime.datetime.now()
-try:
-	import kbench1
-	LOGDIC = kbench1.benchdic()
-except ModuleNotFoundError:
-	LOGDIC = {}
-#pprint.pprint( LOGDIC ) #d
+Anfangszeit = datetime.datetime.now()
+KBDEBUG = True
+KBDEBUG = False
 
 #
-
-##############
-### KBENCH ###
-##############
-class kbench():
-	record = []
-	track = 0
-	title = ''
-
-	def __init__(my):
-		pass
-
-	def tick(my,msg):
-		my.title = msg
-		my.track = datetime.datetime.now()
-
-	def tack(my):
-		assert not my.track == 0
-		jjetzt = datetime.datetime.now()
-		diff = jjetzt - my.track
-		delta = xt.k2s(diff)
-		#
-		lis = [ my.title, delta ]
-		lis.append( str(my.track)[0:19] )
-		lis.append( str(jjetzt)[0:19] )
-		my.record.append( lis )
-
-	def output(my,ex):
-		my.tick('')
-		xz.tbl2txt(my.record,ex)
-
-	def show(my):
-		s = datetime.time()
-		for x in my.record:
-			s = xt.tplus( s, xt.s2z(x[1]) )
-		#
-		# 2017-10-08, ergänzen
-#		print( type(s), ' / ',s )
-		summe = '%02d:%02d.%6d' % (s.minute,s.second,s.microsecond)
-		lis = ['Σ',summe,my.record[0][2],my.record[-1][-1]]
-		my.record.append(lis)
-		xz.show(my.record)
-		my.record.pop()
-
-class stoppuhr():
-	spur = datetime.datetime.now()
-	erst = copy.copy(spur)
-
-	def tick(my,msg=''):
-		delta = datetime.datetime.now() - my.erst
-		s1 = delta.seconds
-		ms1 = delta.microseconds
-		ms1 = ms1 // 10000
-		#
-		delta = datetime.datetime.now() - my.spur
-		s2 = delta.seconds
-		ms2 = delta.microseconds
-		ms2 = ms2 // 10000
-		#
-		delta = (s1,ms1,s2,ms2,msg)
-		delta = 'TICK @ %3d:%03d & %3d:%03d || %s' % delta
-		my.spur = datetime.datetime.now()
-		print( delta )
 
 #############
 ### JETZT ###
 #############
 def jetzt(ruck=False):
 	blick = datetime.datetime.now()
-	delta = blick - init
+	delta = blick - Anfangszeit
 	wert = xt.k2s(delta)
 	if ruck == False:
 		print( 'Das Programme nimmt ' + wert )
-		print( "\tINI : %s" % init )
+		print( "\tINI : %s" % Anfangszeit )
 		print( "\tFIN : %s" % blick )
-		jetztbench(wert)
 	return delta
-
-def jetztbench(wert):
-	global LOGDIC
-	if LOGDIC == {}: return False
-	#
-	eigen = sys.argv[0]
-	if len(eigen) == 4: return False
-	#
-	datei = LOGDIC['benchlog']
-	print( datei ) #d
-	fh = open(datei, 'a',encoding='utf-8')
-	lis = [eigen,xt.jetzt(),wert]
-	fh.write( "\t".join(lis) )
-	fh.write("\n")
-	fh.close()
-	return True
 
 #############
 ### ENFIN ###
 #############
-def enfin(dbg=False,befehl2=''):
-	if dbg == False:
+def enfin(befehl2=''):
+
+	### DRITT ###
+	if not myname == 'quattie528':
 		jetzt()
 		return False
-	if LOGDIC == {}: return True
+	if KBDEBUG == True:
+		jetzt()
+		return False
 
 	### KONSTANT ###
-	zeitstempel = init
+	zeitstempel = Anfangszeit
 	apparat = platform.uname()[1]
 	dauer = jetzt()
 	#
-	urpfad = LOGDIC['urpfad']
 	befehl1 = os.getcwd()
 	befehl1 = befehl1.replace('\\','/')
 	befehl1 += '/'
 	befehl1 += sys.argv[0]
-	befehl1 = befehl1.replace(urpfad,'')
+#	befehl1 = befehl1.replace(urpfad,'')
 	#
 	if len(sys.argv) == 1:
 		arg = ''
 	else:
 		arg = list(sys.argv[1:])
 		if sys.argv[0] == 'meemaa.py':
-			print( 11111111111 )
+#			print( 11111111111 ) #d
 			arg[0] = 'XXXXX'
 		if arg[0] == 'MARUO':
 			arg.pop(0)
@@ -155,8 +77,7 @@ def enfin(dbg=False,befehl2=''):
 	lis = [ str(x) for x in lis ]
 	lis = "\t".join(lis)
 	#
-	ausgabe = LOGDIC['py4selbst']
-	gh = open(ausgabe,'a',encoding='utf-8')
+	gh = open(kbenchlog,'a',encoding='utf-8')
 	gh.write(lis)
 	gh.write("\n")
 	gh.close()
@@ -171,9 +92,12 @@ def enfin(dbg=False,befehl2=''):
 ############################
 def tafel4fx(tafel,titel,beispiel=[]):
 
+	### DRITT ###
+	if not myname == 'quattie528':
+		jetzt()
+		return False
+
 	### TOR ###
-	if LOGDIC == {}: return False
-	#
 	assert isinstance(titel, str)
 	if not beispiel == []:
 		assert isinstance(beispiel, list)
@@ -221,10 +145,9 @@ def tafel4fx(tafel,titel,beispiel=[]):
 	xz.show(res)
 
 	### AUSGABE ###
-	ausgabe = LOGDIC['py4set']
 	res.pop(0)
 	res.pop()
-	gh = open(ausgabe, 'a',encoding='utf-8')
+	gh = open(kbenchset, 'a',encoding='utf-8')
 	y = "### %s @ %s ###\n" % ( titel, tag )
 	gh.write( y )
 	for lis in res:
@@ -236,7 +159,7 @@ def tafel4fx(tafel,titel,beispiel=[]):
 	gh.close()
 
 	### PRUFUNG ###
-	gh = open(ausgang,'r',encoding='utf-8')
+	gh = open(kbenchset,'r',encoding='utf-8')
 	lis = gh.read()
 	lis = lis.split("\n")
 	lis = [ x for x in lis if "###" in x ]
@@ -258,10 +181,6 @@ def tafel4fx(tafel,titel,beispiel=[]):
 
 ##### DIREKT ###############
 if __name__=='__main__':
-#	x = kbench()
-	#
-#	y = stoppuhr()
-#	y.tick()
 
 	mode = 1
 	if mode == 1:

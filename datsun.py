@@ -11,6 +11,8 @@ import re
 import sys
 import clipboard
 #
+from loch import *
+#
 #import dritt
 #import xt # NEVER USE IT
 #from xz import * # NEVER USE IT
@@ -40,12 +42,10 @@ def usage(x):
 	if len(sys.argv) == 1:
 		x = x.replace('.py','')
 		w = os.path.dirname(__file__)
-		w = 'in/9/%s.txt' % x
+		w = inconf + 'usage/%s.txt' % x
 		if not os.path.exists(w):
-			w = 'D:/adel/in/9/%s.txt' % x
-			if not os.path.exists(w):
-				print('no args, no usage explanation')
-				exit()
+			print('no args, no usage explanation')
+			exit()
 		with open(w, 'r',encoding='utf-8') as f: x = f.read()
 		x = '-'*50 + "\n" + x
 		print(x)

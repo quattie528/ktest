@@ -123,4 +123,4 @@ def n8assert(datei):
 ##### DIREKT ###############
 if __name__=='__main__':
 #	print( dateimeta(x) )
-	kbench.enfin(True,'')
+	kbench.enfin()
