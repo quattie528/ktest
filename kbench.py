@@ -57,7 +57,7 @@ def enfin(befehl2=''):
 	befehl1 = befehl1.replace('\\','/')
 	befehl1 += '/'
 	befehl1 += sys.argv[0]
-#	befehl1 = befehl1.replace(urpfad,'')
+#	befehl1 = befehl1.replace(urPfad,'')
 	#
 	if len(sys.argv) == 1:
 		arg = ''
@@ -83,6 +83,8 @@ def enfin(befehl2=''):
 	gh.close()
 	#
 #	exit() #d
+#	print( dauer ) #d
+	return dauer
 	return True
 
 #

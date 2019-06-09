@@ -5,8 +5,10 @@ import requests
 import sys
 import re
 import time
+import random
 #import kbench
 import platform
+import urllib.parse
 #
 import webbrowser as wb
 import pyautogui as pgui
@@ -52,7 +54,6 @@ def url2html(addr):
 
 def urls2html(datei,ex='a.html'):
 	import datetime
-	import random
 	#
 	lis = xz.txt2lis(datei)
 	print( 'GEHEN ZU HANDEL ... "%s" ' % datei )
@@ -93,6 +94,7 @@ def urls2htmls(datei,pfad4ex):
 	print( '*' * 30 )
 	#
 	for i,lis in enumerate(tbl):
+#		print( lis ) #d
 		addr = lis.pop(0)
 		dest = lis.pop(0)
 		dest= pfad4ex + dest
@@ -195,14 +197,15 @@ def url2txt(url,ausgabe):
 	import webbrowser as wb
 	import pyautogui as pgui
 	import xu
-	
+
 	### KONSTANT ###
 	print( url ) #d
 	wb.open(url)
-	xu.sleep(10)
+	m = random.randrange(wart_min,wart_max)
+	xu.sleep(m)
 	#
-	xpos4sicher = 797
-	ypos4sicher = 16
+	xpos4sicher = 2
+	ypos4sicher = 2
 	#1640,20
 	#797,16  # leftside
 	#
@@ -242,12 +245,13 @@ def urls2txts(paartxt):
 	for lis in paaren:
 		url = lis[0]
 		ausgabe = lis[1]
+		if os.path.exists(ausgabe): continue # 2019-06-07
 		url2txt(url,ausgabe)
 
 def url2src(url,ausgabe):
 	pass
 
-def url2clip(url,xpos=1660,ypos=130,schlaf=2): 
+def url2clip(url,xpos=1660,ypos=130,schlaf=2):
 	import clipboard
 	import webbrowser as wb
 	import pyautogui as pgui
@@ -273,6 +277,13 @@ def url2clip(url,xpos=1660,ypos=130,schlaf=2):
 	pgui.keyUp('alt')
 	return wert
 
+def url2encode(url):
+	x = urllib.parse.quote(url)
+	return x
+
+def url2decode(url):
+	x = urllib.parse.unquote(url)
+	return x
 
 ##### DIREKT ###############
 if __name__=='__main__':

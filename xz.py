@@ -13,6 +13,10 @@ import pickle
 import re
 import sys
 import time
+#
+import attrdict
+import yaml
+from loch import *   # Ausnahme für die Achtung
 from datsun import * # Ausnahme für die Achtung
 from xzplus import * # Ausnahme für die Achtung
 
@@ -434,7 +438,6 @@ def str2ddic(var,key):
 
 ### STRING to ATTR-DICT ###
 def str2adic(var):
-	import attrdict
 	var = str2dic(var)
 	return attrdict.AttrDict(var)
 
@@ -978,70 +981,6 @@ def lookup(des,aux,ex='a.txt'):
 
 #
 
-######################################
-### CONVERSION BETWEEN TSV and KML ###
-######################################
-
-### TSV to KML ###
-def tsv2kml(des,aux):
-	kopfer = getheader(des)
-	res1 = txt2ldic(des)
-	res1 = tsv7kml(res1,'tsv2kml')
-	ldic2kml(res1,aux,kopfer)
-#d	ldic2kml(res1,'w.memo',kopfer) #debug
-#	time.sleep(1)
-	res2 = kml2ldic(aux)
-	if res1 == res2:
-		pass
-	else:
-		assert( 1 == 1 ) # bluff
-		assert( 1 == 2 )
-
-### KML to TSV ###
-def kml2tsv(des,aux):
-	kopfer = getkmlheader(des)
-	res1 = kml2ldic(des)
-	res1 = tsv7kml(res1,'kml2tsv')
-	ldic2txt(res1,aux,kopfer)
-	res2 = txt2ldic(aux)
-	if res1 == res2:
-		pass
-	else:
-		assert( 1 == 1 ) # bluff
-		for i in range( len(res1) ):
-			d1 = res1[i]
-			d2 = res1[i]
-			print( i )
-			if d1 == d2: continue
-			print( i,i,i,i )
-			print( d1 )
-			print( d2 )
-			break
-		assert( 1 == 2 )
-
-### Choose KML or TSV ###
-def tsv8kml(des,aux):
-	with open(des, 'r',encoding='utf-8') as f: x = f.readline()
-	if re.match(".+\t",x):
-		tsv2kml(des,aux)
-		return 'kml'
-	else:
-		kml2tsv(des,aux)
-		return 'tsv'
-
-### Adjust "\n" for KML and TSV ###
-def tsv7kml(ldic,mode):
-	for dic in ldic:
-		for k,v in dic.items():
-			if mode == 'tsv2kml':
-				v = v.replace("////","\n")
-			if mode == 'kml2tsv':
-				v = v.replace("\n","////")
-			dic[k] = v
-	return ldic
-
-#
-
 ##############################
 ### Xs and Ys to DICT-DICT ###
 ##############################
@@ -1309,8 +1248,27 @@ def dlis2tbl(dlis,kopfer):
 
 #
 
+####################
+### YAML zu CONF ###
+####################
+def yml2cnf(txt):
+	x = txt2str(txt)
+	x = x.replace("\t",'  ')
+	x = x.replace('<UR>',urpfad)
+	x = x.replace(urpfad+'/',urpfad)
+
+	x = str2io(x)
+	dic = yaml.load(x,Loader=yaml.BaseLoader)
+	dic = attrdict.AttrDict(dic)
+	return dic
+
+#
+
 ##### DIREKT ###############
 if __name__=='__main__':
-	pass
+	import pprint
+	txt = ''
+	d = yml2cnf(txt)
+	pprint.pprint( d )
 
 #add flush(), from the lecture yesterday @ 2017-12-04
