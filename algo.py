@@ -1,5 +1,3 @@
-meaninigless_var = 111
-
 def condlist(*lis_and_conds):
 	res = lis_and_conds[0]
 	conds = lis_and_conds[1:]

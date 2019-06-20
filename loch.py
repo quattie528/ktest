@@ -3,6 +3,8 @@ import pprint
 import yaml
 
 datei = 'D:/var/conf.txt'
+if os.name == 'posix':
+	datei = '/Users/katsushi/vw/var/conf.txt'
 if not os.path.exists(datei):
 	datei = 'conf.txt'
 

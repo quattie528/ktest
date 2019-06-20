@@ -32,6 +32,7 @@ def lookup(sache,dicfile):
 
 def replace(sache,listfile):
 	sache = sache2list(sache)
+	sache = "\n".join(sache)
 	try:
 		dic = xz.txt2dic(listfile)
 	except:

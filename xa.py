@@ -17,6 +17,9 @@ opt = {
     'encoding': "UTF-8",
     'no-outline': None
 }
+notice = True
+notice = False
+
 ### path is needed to set ###
 #cfg = pdfkit.configuration(wkhtmltopdf='/opt/bin/wkhtmltopdf'))
 #cfg = pdfkit.configuration(wkhtmltopdf='C:/Program Files (x86)/wkhtmltopdf/bin'))
@@ -68,10 +71,10 @@ def mergepdf(ex,*pdfs):
 
 #
 
-#####################
-### IMAGEs to PDF ###
-#####################
-def imgs2pdf(weg,ex='a.pdf',fmt='png'): # 2016-05-21
+########################
+### DIRECTORY to PDF ###
+########################
+def dir2pdf(pfad,ex='a.pdf',fmt='png'): # 2016-05-21
 	from fpdf import FPDF
 	import os
 	#
@@ -82,21 +85,31 @@ def imgs2pdf(weg,ex='a.pdf',fmt='png'): # 2016-05-21
 	w,h = weight and height, it seems cm is the unit
 	"""
 	#
-	fmt2 = fmt + '$'
-	if not re.search('\.',fmt):
+	assert len(fmt) < 8
+	if not fmt[0] == '.':
 		fmt = '.' + fmt
+	fmt2 = len(fmt) * -1
 	#
-	feilen = os.listdir(weg)
-	for bild in feilen:
-		if not re.search(fmt2,bild): continue
+	dateien = os.listdir(pfad)
+	for bild in dateien:
+		ext = bild[fmt2:]
+		if not ext == fmt: continue
+		if not os.path.exists(pfad+bild): continue
+		if os.path.isdir(pfad+bild): continue
+		#
 		pdf.add_page()
-		pdf.image(weg+bild,x,y,w,h)
+		pdf.image(pfad+bild,x,y,w,h)
 #		pdf.image(bild,x,y,w,h)
+
+	### AUSGABE ###
 	pdf.output(ex, "F")
-	print( 'Ausgabe als %s' % ex )
+	if notice == True:
+		print( 'Ausgabe als %s' % ex )
 
 #
 
 ##### DIREKT ###############
+#from loch import * #d
 if __name__=='__main__':
-	pass
+	ex = labomi+'y.pdf'
+	dir2pdf(ord,ex)

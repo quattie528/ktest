@@ -150,7 +150,7 @@ def tsv8kml(des,aux=''):
 	else:
 		mode = 'kml2tsv'
 		kml2tsv(des,aux)
-	
+
 	### AUSGABE ###
 	if aux == TMP4KMLTSV:
 		aux = xz.txt2str(aux)
@@ -172,6 +172,28 @@ def tsv7kml(ldic,mode):
 				v = v.replace("\n","////")
 			dic[k] = v
 	return ldic
+
+#
+
+#######################
+### DICT KEY CHANGE ###
+#######################
+def dickey(dic,keys):
+	res = {}
+	for k1,w in dic.items():
+		try:
+			k2 = keys[k1]
+			res[k2] = w
+		except KeyError:
+			res[k1] = w
+	return res
+
+def ldickey(ldic,keys):
+	res = []
+	for dic in ldic:
+		dic = dickey(dic,keys)
+		res.append(dic)
+	return res
 
 #
 
