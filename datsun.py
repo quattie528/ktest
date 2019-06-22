@@ -113,6 +113,8 @@ def transpose(var):
 ###############
 def commify(v):
 	w = str(v)
+	if w == 'True':  return v
+	if w == 'False': return v
 	if w.isdigit == False:
 		return v
 	v = list( str(w) )

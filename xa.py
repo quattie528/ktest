@@ -91,6 +91,7 @@ def dir2pdf(pfad,ex='a.pdf',fmt='png'): # 2016-05-21
 	fmt2 = len(fmt) * -1
 	#
 	dateien = os.listdir(pfad)
+	dateien.sort()
 	for bild in dateien:
 		ext = bild[fmt2:]
 		if not ext == fmt: continue
