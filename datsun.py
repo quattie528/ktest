@@ -12,6 +12,10 @@ import sys
 import clipboard
 #
 from loch import *
+from xy import transpose
+from xy import flatten
+from xy import adic
+from xy import commify
 #
 #import dritt
 #import xt # NEVER USE IT
@@ -100,37 +104,7 @@ def uniq(lis): # ver2 @ 2017-12-16, dict ist schnell!
 
 #
 
-#################
-### TRANSPOSE ###
-#################
-def transpose(var):
-	return list(map(list, zip(*var)))
-
 #
-
-###############
-### COMMIFY ###
-###############
-def commify(v):
-	w = str(v)
-	if w == 'True':  return v
-	if w == 'False': return v
-	if w.isdigit == False:
-		return v
-	v = list( str(w) )
-	v.reverse()
-	#
-	w = []
-	for i,x in enumerate(v):
-#	   print(i,x)
-		w.append(x)
-		if (i+1) % 3 == 0: w.append(',')
-	w.reverse()
-	v = "".join(w)
-	v = v.replace('-,','-')
-	v = v.replace(',.','.')
-	v = re.sub('^,','',v)
-	return v
 
 #
 
@@ -181,10 +155,6 @@ def parsetime(x):
 		return x
 	except ValueError:
 		return x
-
-def adic(var={}):
-	import attrdict
-	return attrdict.AttrDict(var)
 
 #
 
