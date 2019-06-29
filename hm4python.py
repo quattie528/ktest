@@ -5,7 +5,7 @@
 import sys
 from datsun import *
 import xz
-import xzplus
+#import xzplus
 import re
 import os
 
@@ -518,7 +518,8 @@ def regenbogen(sache):
 	sicher = xz.notice
 	xz.notice = False
 	xz.str2txt(sache,tmp)
-	sache = xzplus.tsv8kml(tmp)
+#	sache = xzplus.tsv8kml(tmp)
+	sache = xz.tsv8kml(tmp)
 	os.remove(tmp)
 	xz.notice = sicher
 	return sache

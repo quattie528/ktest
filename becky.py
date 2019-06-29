@@ -7,7 +7,7 @@ import re
 import xt
 import xz
 #
-import mich.becky2 # "mich/becky2.py"
+#import mich.becky2 # "mich/becky2.py"
 import email
 import email.policy
 #import email.parser
@@ -16,7 +16,9 @@ from datsun import *
 
 policy = email.policy.SMTP
 
-emails = mich.becky2.emails
+#emails = mich.becky2.emails
+
+#
 
 #
 
@@ -230,8 +232,9 @@ def becky_statistik(weg):
 ##### DIREKT ###############
 if __name__=='__main__':
 	mode = 2
-	pfad4becky = mich.becky2.beckyPfad1 # Freund
-#	pfad4becky = mich.becky2.beckyPfad2 # Einkauf
+	cnf = xz.yml2cnf(cnf)
+	pfad4becky = cnf.beckyPfad1 # Freund
+#	pfad4becky = cnf.beckyPfad2 # Einkauf
 	if mode == 1: #1
 		res = mailer_statistik(pfad4becky)
 	elif mode == 2: #2
