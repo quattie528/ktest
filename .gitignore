@@ -1,2 +1,3 @@
-wm.py
-
+__pycache__/
+xy/__pycache__/
+xz/__pycache__/

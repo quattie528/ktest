@@ -14,7 +14,7 @@ import mich.will2
 debug = True
 ERSTES_TESTAMENT = False
 
-#
+##
 
 #################
 ### TESTAMENT ###
