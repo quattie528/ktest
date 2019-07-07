@@ -20,3 +20,14 @@ def replist(*lis_and_conds):
 		res = [ cond(x) for x in res ]
 	return res
 
+def whitelist(x,condlist):
+	for x in condlist:
+		if cond in x:
+			return True
+	return False
+
+def blacklist(x,condlist):
+	for cond in condlist:
+		if cond in x:
+			return False
+	return True

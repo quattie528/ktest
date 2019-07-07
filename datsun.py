@@ -40,6 +40,7 @@ except ModuleNotFoundError:
 		return x
 """
 
+"""
 ### USAGE ###
 def usage(x):
 	import sys
@@ -59,6 +60,7 @@ def usage(x):
 			return int( sys.argv[1] )
 		else:
 			return sys.argv[1]
+"""
 
 ### W zu Mac ###
 def w2m(x):

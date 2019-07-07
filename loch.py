@@ -17,6 +17,14 @@ else:
 		for x in
 		['labomi','inconf','mydata','myname','kbenchlog','kbenchset']
 	}
+	if os.name == 'posix':
+		dic['labomi'] = '/tmp/labomi/'
+		os.mkdir(dic['labomi'])
+	elif os.name == 'nt':
+		import platform
+		myname = platform.uname()[1]
+		myname = 'C:/Users/%s/AppData/Local/Temp/labomi/' % myname
+		dic['labomi'] = myname
 
 labomi = dic['labomi']
 inconf = dic['inconf']

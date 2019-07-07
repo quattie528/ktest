@@ -152,20 +152,22 @@ def get_all_files(pfad):
 	res = []
 	for tp in db:
 		eigen = tp[0] + '/'
-		feilen = tp[2]
-		for x in feilen:
+		dateien = tp[2]
+		for x in dateien:
 			y = eigen+x
 			y = y.replace('\\','/')
 			if y[0:2] == './': y = y[2:]
 			res.append(y)
 	res = [ x.replace('//','/') for x in res ]
 	return res
-
+"""
+#Comment out @ 2019-06-30
 def get_all_files_2(pfad):
 	db = os.walk(pfad)
 	db = [ d[0].replace('\\','/') + '/' for d in db ]
 	db = [ d.replace('//','/') for d in db ]
 	return db
+"""
 
 def get_all_size(pfad,strict=True):
 	res = get_all_files(pfad)
@@ -192,10 +194,10 @@ def get_count(pfad):
 #############
 # ULTRA ACHTUNG !
 def rmrf(pfad): #
-	feilen = os.listdir(pfad)
-	for feile in feilen:
-		feile = pfad + feile
-		os.remove(feile)
+	dateien = os.listdir(pfad)
+	for datei in dateien:
+		datei = pfad + datei
+		os.remove(datei)
 	os.rmdir(pfad)
 
 #############
@@ -265,20 +267,6 @@ def retree(pfad):
 
 #-------------------------------------------------
 
-def commify(amount):
-	amount = list(str(amount))
-	amount.reverse()
-	cnt = 0
-	res = []
-	for x in amount:
-		cnt += 1
-		res.append(x)
-		if cnt == 3:
-			res.append(',')
-			cnt = 0
-	res.reverse()
-	return "".join(res)
-
 def findfat(pfad):
 	res = []
 	w = byte(pfad)
@@ -287,9 +275,9 @@ def findfat(pfad):
 	#
 	while 1:
 		dic = {}
-		feilen = os.listdir(pfad)
+		dateien = os.listdir(pfad)
 		flg = False
-		for x in feilen:
+		for x in dateien:
 			x = pfad+x
 			if os.path.isdir(x):
 				flg = True

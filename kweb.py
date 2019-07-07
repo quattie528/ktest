@@ -96,7 +96,10 @@ def urls2htmls(datei,pfad4ex):
 	for i,lis in enumerate(tbl):
 #		print( lis ) #d
 		addr = lis.pop(0)
-		dest = lis.pop(0)
+		try:
+			dest = lis.pop(0)
+		except IndexError:
+			dest = '%05d.html' % ( i + 29 )
 		dest= pfad4ex + dest
 		#
 		if os.path.exists(dest): continue

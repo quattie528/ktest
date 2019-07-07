@@ -24,3 +24,19 @@ def commify(v):
 	v = v.replace(',.','.')
 	v = re.sub('^,','',v)
 	return v
+
+"""
+def commify(amount):
+	amount = list(str(amount))
+	amount.reverse()
+	cnt = 0
+	res = []
+	for x in amount:
+		cnt += 1
+		res.append(x)
+		if cnt == 3:
+			res.append(',')
+			cnt = 0
+	res.reverse()
+	return "".join(res)
+"""

@@ -7,6 +7,7 @@ def dic2fill(dic,kopfer):
 	for x in kopfer:
 		if x in dic: continue
 		dic[x] = ''
+	if '' in dic: dic.pop('')
 	return dic
 #
 def ldic2fill(ldic,kopfer):

@@ -91,6 +91,7 @@ def tsv2kml(des,aux):
 def kml2tsv(des,aux):
 	kopfer = xz.getkmlheader(des)
 	res1 = xz.kml2ldic(des)
+	res1 = xz.ldic2fill(res1,kopfer)
 	res1 = tsv7kml(res1,'kml2tsv')
 	xz.ldic2txt(res1,aux,kopfer)
 	res2 = xz.txt2ldic(aux)
@@ -100,13 +101,12 @@ def kml2tsv(des,aux):
 		assert( 1 == 1 ) # bluff
 		for i in range( len(res1) ):
 			d1 = res1[i]
-			d2 = res1[i]
-			print( i )
+			d2 = res2[i]
+			print( '#',i )
 			if d1 == d2: continue
-			print( i,i,i,i )
 			print( d1 )
 			print( d2 )
-			break
+#			break
 		assert( 1 == 2 )
 
 ### Choose KML or TSV ###
