@@ -99,7 +99,7 @@ def urls2htmls(datei,pfad4ex):
 		try:
 			dest = lis.pop(0)
 		except IndexError:
-			dest = '%05d.html' % ( i + 29 )
+			dest = '%05d.html' % ( i + 1 )
 		dest= pfad4ex + dest
 		#
 		if os.path.exists(dest): continue
