@@ -15,3 +15,8 @@ from .show4cli import *
 
 from .xzbase import *
 from .xzplus import *
+
+### 2019-08-03 ###
+### Gave up ###
+#binary = True
+#notice = True

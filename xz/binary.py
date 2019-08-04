@@ -1,6 +1,5 @@
 import pickle
 
-
 def obj2bin(obj,bin):
 	gh = open(bin,'wb')
 	pickle.dump(obj, gh)

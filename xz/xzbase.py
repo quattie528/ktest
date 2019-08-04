@@ -206,6 +206,7 @@ def __tell_output(ex): # gigi
 
 def __bin_output(ex,feile):
 	global notice, binary
+#	print( binary ) #d
 	if binary == False: return True
 	m = re.search('(.+)\.',feile)
 	ausgabe = m.group(1) + '.bin'
@@ -660,7 +661,6 @@ def ldic2kml(ldic,ex='',header=[]):
 	return res
 
 #
-
 
 ##### ??? to STD ###############
 
