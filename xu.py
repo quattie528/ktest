@@ -89,10 +89,10 @@ def sleep(sek):
 		pgui.moveTo(2,2,sek-8)
 
 ### CLICK ###
-def click(x,y):
+def click(x,y,lr='left'):
 	pgui.moveTo(x,y)
 	try:
-		pgui.click()
+		pgui.click(button=lr)
 	except PermissionError:
 		pass
 

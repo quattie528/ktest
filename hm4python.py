@@ -524,6 +524,27 @@ def regenbogen(sache):
 	xz.notice = sicher
 	return sache
 
+#
+
+################
+### BACKFILL ###
+################
+def backfill(sache):
+	sache = sache2sachet(sache)
+	assert not sache[0] == ''
+	vor = lis[0]
+	res = []
+	for x in sache:
+		if x == '':
+			y = vor
+		else:
+			y = x
+			vor = x
+		res.append(y)
+	return res
+
+#
+
 ##### DIREKT ###############
 if __name__=='__main__':
 	pass
