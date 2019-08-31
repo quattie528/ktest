@@ -300,9 +300,34 @@ def findfat(pfad):
 
 #
 
+#############################
+### ÄLTER RANG in DATEIEN ###
+#############################
+def aelter(pfad,rang=20):
+	ds = get_all_files(pfad)
+	zt = 0
+	ds = [ [d,xt.u2p(mtime(d))] for d in ds ]
+	ds = sorted(ds,key=lambda d:d[1])
+	ds.reverse()
+	#
+	res = []
+	n = 1
+	for paar in ds:
+		zt = paar[1]
+		zt = str(zt)
+		datei = paar[0]
+		if datei[-4:] == '.pyc': continue
+		tmp = [n,zt,datei]
+		res.append(tmp)
+		n += 1
+		if n == rang + 1: break
+	pprint.pprint( res )
+
+#
+
 ##### DIREKT ###############
 if __name__=='__main__':
-	pass
+	pfad = 'D:/adel/ager/'
 
 #0000071508_10K_2015Q1a
 
