@@ -104,4 +104,3 @@ def fewclick(times,x,y):
 			pgui.click()
 		except PermissionError:
 			pass
-
