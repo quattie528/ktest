@@ -341,6 +341,27 @@ def test(datei):
 	x = wb.get_sheet_names()
 	print( x, type(x) )
 
+#
+
+##################
+### XLS zu BIN ###
+##################
+def xls2obj(bin,xls,blatt=0):
+	import xf
+	obj = []
+	if os.path.exists(bin):
+		if xf.mtime(xls) < xf.mtime(bin):
+			obj = xz.bin2obj(bin)
+			print( '#recycle' ) #d
+	if obj == []:
+		obj = xls2tbl( xls, blatt )
+		obj = xz.tbl2ldic(obj)
+		xz.obj2bin(obj,bin)
+		print( '#load' ) #d
+	return obj
+
+#
+
 ##### DIREKT ###############
 if __name__=='__main__':
 	pass

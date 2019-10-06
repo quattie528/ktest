@@ -327,7 +327,7 @@ def aelter(pfad,rang=20):
 
 ##### DIREKT ###############
 if __name__=='__main__':
-	pass
+	pfad = 'D:/adel/ager/'
 
 #0000071508_10K_2015Q1a
 

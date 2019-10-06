@@ -382,16 +382,18 @@ def d2n(x):
 	assert( isinstance(x, dy) )
 	return x.year * 100 + x.month
 
-def k2s(x):
+def k2s(x,sym='hhmmss'):
 	assert( isinstance(x, dl) )
 	ms = x.microseconds
 	n = x.seconds
-#	h = n // 3600
-	m = n // 60
-	s = n % 60
-#	x = '%02d:%02d:%02d.%05d' % (h,m,s,ms)
-	x = '%02d:%02d.%05d' % (m,s,ms)
-	x = '%02d:%02d.%03d' % (m,s,ms)
+	if sym == 'hhmmss':
+		h,n = divmod( n,3600 )
+		m,s = divmod( n,60 )
+		x = '%02d:%02d:%02d' % (h,m,s)
+	else:
+#		x = '%02d:%02d:%02d.%05d' % (h,m,s,ms)
+#		x = '%02d:%02d.%05d' % (m,s,ms)
+		x = '%02d:%02d.%03d' % (m,s,ms)
 	return x
 
 ### IM++ ###
