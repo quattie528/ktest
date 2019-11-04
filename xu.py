@@ -12,10 +12,10 @@ pgui.FAILSAFE = True
 if os.name == 'nt':
 	import ctypes
 	user32 = ctypes.windll.user32
-	BildschirmX = user32.GetSystemMetrics(0)
-	BildschirmY = user32.GetSystemMetrics(1)
-	#print( BildschirmX )
-	#print( BildschirmY )
+	BildschirmX = user32.GetSystemMetrics(0) - 100
+	BildschirmY = user32.GetSystemMetrics(1) - 100
+#	print( BildschirmX ) #d
+#	print( BildschirmY ) #d
 elif os.name == 'posix':
 	BildschirmX = 777
 	BildschirmY = 777
@@ -81,9 +81,13 @@ def copyall():
 
 ### SLEEP ###
 def sleep(sek):
+#	print( BildschirmX ) #d
+#	print( BildschirmY ) #d
 	pgui.moveTo(BildschirmX,BildschirmY)
 	if sek < 8:
+#		pgui.moveTo(200,200)
 		pgui.moveTo(2,2,sek)
+		pass
 	else:
 		pgui.moveTo(2,2,8)
 		pgui.moveTo(2,2,sek-8)
