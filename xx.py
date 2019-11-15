@@ -346,18 +346,47 @@ def test(datei):
 ##################
 ### XLS zu BIN ###
 ##################
-def xls2obj(bin,xls,blatt=0):
+def stamm2obj(ur,bin,blatt=0,opt={}):
+#def xls2obj(bin,xls,blatt=0): # 2019-11-04
+	"""
+	STAMM kommst aus "STAMMDATEN"
+	https://de.wikipedia.org/wiki/Stammdaten
+	"""
+	
 	import xf
-	obj = []
+	
+	### VORBEREITUNG ###
+	ldic = opt.get('ldic',False)
+	ddic = opt.get('ddic',False)
+	ddickey = opt.get('ddickey','')
+	if ddic == True:
+		ldic = True
+#	print( ldic ) #d
+#	print( ddic ) #d
+#	print( ddickey ) #d
+	
+	### HAUPT ###
+	#
+	## Wierderverwerten ##
 	if os.path.exists(bin):
-		if xf.mtime(xls) < xf.mtime(bin):
+		print( '[UR  ]', xf.ctime(ur), ur )    #d
+		print( '[NACH]', xf.ctime(bin), bin ) #d
+#		if xf.cdate(ur) <= xf.cdate(bin):
+		if xf.ctime(ur) >= xf.ctime(bin):
+			print( '#Wierderverwerten' ) #d
 			obj = xz.bin2obj(bin)
-			print( '#recycle' ) #d
-	if obj == []:
-		obj = xls2tbl( xls, blatt )
+			return obj
+	#
+	## Laden ##
+	print( '#Laden' ) #d
+	obj = xls2tbl(ur,blatt)
+	if ldic == True:
 		obj = xz.tbl2ldic(obj)
-		xz.obj2bin(obj,bin)
-		print( '#load' ) #d
+		if ddic == True:
+			obj = xz.ldic2ddic(obj,ddickey)
+	xz.obj2bin(obj,bin)
+	
+	### AUSGABE ###
 	return obj
 
 #
