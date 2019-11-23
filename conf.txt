@@ -1,4 +1,8 @@
 inconf: X:/conf_folder/
-labomi: C:/Users/[maybe_your_name]/AppData/Local/Temp/
+kbenchlog: X:/log/bench1.tsv
+kbenchset: X:/log/bench2.log
+klogpfad: X:/log/
+labomi: C:/Users/[maybe_your_name]/AppData/Local/Temp/labomi/
 mydata: X:/data_folder/
 myname: yourhostname
+urpfad: X:/kmod/

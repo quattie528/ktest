@@ -7,6 +7,7 @@
 ### MODULES ###
 import datetime
 import os
+import tempfile
 #import pprint
 #
 #import clipboard
@@ -14,14 +15,16 @@ import os
 
 #
 
+"""
+Abgeschafft @ 2019-11-23
 ###############################
 ### TEMPORÄRER ORDNER SUCHE ###
 ###############################
 def tempordnersuche():
 	if os.name == 'posix': return '/tmp/'
 	import subprocess
-	mitte = 'a.txt'
-	befehl = 'echo %TEMP% > '+mitte
+	mitte = './a.txt'
+	befehl = '	echo %TEMP% > '+mitte
 	subprocess.call(befehl,shell=True)
 #	subprocess.Popen(befehl,shell=True)
 	with open(mitte, 'r',encoding='utf-8') as fh:
@@ -33,6 +36,7 @@ def tempordnersuche():
 	if not pfad[-1] == '/':
 		pfad += '/'
 	return pfad
+"""
 
 #
 
@@ -45,17 +49,31 @@ def which_browser():
 	import xf
 	import xz
 
+	### BROWSER ###
+	if os.name == 'posix':
+		browser = '/tmp/'
+	elif os.name == 'nt':
+		pfad = tempfile.gettempdir()
+		pfad = pfad.replace('\\','/')
+		if not pfad[-1] == '/':
+			pfad += '/'
+		browser = pfad + 'labomi/'
+
+	### VARIABLES ###
 	pfad1 = 'C:/Program Files/'
 	pfad2 = 'C:/Program Files (x86)/'
-	ausgabe = eingriff() + 'browser.bin'
+	ausgabe = browser + 'browser.bin'
 
+#
+
+	### HAUPT 1 ###
 	if os.path.exists(ausgabe):
 		res = xz.bin2obj(ausgabe)
 #		print( 111 ) #d
 		if ['heute'] == datetime.date.today():
 			return True
 
-	### HAUPT ###
+	### HAUPT 2 ###
 	res = {}
 	res['heute'] = datetime.date.today()
 	for pfad in [pfad1,pfad2]:
@@ -75,14 +93,6 @@ def which_browser():
 
 	### AUSGABE ###
 	xz.obj2bin(res,ausgabe)
-
-#
-
-################
-### KONSTANT ###
-################
-def eingriff():
-	return tempordnersuche() + 'labomi/'
 
 #
 
