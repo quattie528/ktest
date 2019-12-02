@@ -6,7 +6,7 @@ Trial to open part of my module works
 - 自分の中ではかなり人生的決断ですが、自分のPythonプログラムを一部公開することにしました。
 - テクニカルには、githubが使いこなせていないので、アップロード方法がいけてないかもしれません。
 - 
-- https://github.com/quattie528/quattie528/
+- https://github.com/quattie528/pylibq 
 - 
 - 目的は2つあります。
 - 
