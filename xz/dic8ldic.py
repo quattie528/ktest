@@ -1,4 +1,19 @@
 
+#
+
+#######################
+### LDIC zu FILTERN ###
+#######################
+def ldic2filter(ldic,kopfer):
+	res = []
+	for dic in ldic:
+		lis = []
+		for k in kopfer:
+			lis.append( dic[k] )
+		res.append(dic)
+	return res
+
+#
 
 #######################
 ### DIC zu ERFÜLLEN ###
