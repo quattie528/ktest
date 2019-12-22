@@ -1,20 +1,7 @@
 #!/usr/bin/python
 
 ### MODULES ###
-#import datetime
-#import os
-#import pprint
-#
-#import clipboard
-#import attrdict
 import cx_Oracle
-#
-from datsun import *
-from loch import *
-import xz
-#import kbench
-#
-#1:battery,2:pip,3:mygen,4:myopus
 
 ### VARIABLES ###
 #kbench.KBDEBUG = True
