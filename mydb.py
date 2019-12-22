@@ -28,13 +28,13 @@ DEBUG = False
 def myconn(dbname,diccur=False):
 	### KONSTANT ###
 	conn = mysql.connector.connect(
-	    host = dbdb.IP4SVR,
-	    port = 3306,
-	    user = dbdb.GENUTZER,
-	    password = dbdb.KENNWORT,
-	    connection_timeout = 1, # 2019-05-04
-	    database = dbname,
-#	    cursorclass=cursors.DictCursor
+		host = dbdb.IP4SVR,
+		port = 3306,
+		user = dbdb.GENUTZER,
+		password = dbdb.KENNWORT,
+		connection_timeout = 1, # 2019-05-04
+		database = dbname,
+#		cursorclass=cursors.DictCursor
 	)
 	return conn
 

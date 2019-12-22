@@ -92,12 +92,12 @@ def which_browser():
 				break
 
 	### AUSGABE ###
+#	import pprint; pprint.pprint( res )
 	xz.obj2bin(res,ausgabe)
+	return res
 
 #
 
 ##### DIREKT ###############
 if __name__=='__main__':
-	print( eingriff() )
-#	which_browser()
-#C:\Users\kakagami\AppData\Local\Temp\labomi\
+	which_browser()

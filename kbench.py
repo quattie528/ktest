@@ -114,7 +114,7 @@ def tafel4fx(tafel,titel,beispiel=[]):
 	#
 	erst = datetime.datetime.now()
 	tick = datetime.datetime.now()
-	tag = datetime.date.today()
+	tag  = datetime.date.today()
 
 	### HAUPT ###
 	for lis in tafel:

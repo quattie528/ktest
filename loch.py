@@ -41,7 +41,6 @@ else:
 		if not os.path.exists(datei):
 			os.mkdir(datei)
 
-### AUSGABE ###
 labomi = dic['labomi']
 inconf = dic['inconf']
 mydata = dic['mydata']
