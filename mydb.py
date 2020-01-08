@@ -3,6 +3,7 @@
 ### MODULES ###
 #import datetime
 #import os
+import time
 import pprint
 #
 import mysql.connector
@@ -19,13 +20,15 @@ import mich.dbenv as dbdb
 ### VARIABLES ###
 DEBUG = True
 DEBUG = False
+#
+DBNAME = 'your_database_name'
 
 #
 
 ####################
 ### MY CONNECTOR ###
 ####################
-def myconn(dbname,diccur=False):
+def myconn():
 	### KONSTANT ###
 	conn = mysql.connector.connect(
 		host = dbdb.IP4SVR,
@@ -33,7 +36,7 @@ def myconn(dbname,diccur=False):
 		user = dbdb.GENUTZER,
 		password = dbdb.KENNWORT,
 		connection_timeout = 1, # 2019-05-04
-		database = dbname,
+		database = DBNAME,
 #		cursorclass=cursors.DictCursor
 	)
 	return conn
@@ -72,12 +75,81 @@ def txt2sql(txt,name):
 
 	return res
 
+def daemon_erholung(dic,msg):
+	print( msg,end='' ) #d
+	print( '%'*20 ) #d
+	pprint.pprint( dic )
+	time.sleep(1)
+
+### CONF ###############################################
+
+#
+
+#############
+### MAXID ###
+#############
+def maxid(tblname):
+	hdl = myconn()
+	cur = hdl.cursor()
+	#
+	data = desctbl(tblname)
+	prikey = ''
+	for x in data:
+		if x[3] == 'PRI':
+			prikey = x[0]
+			break
+	#
+	stmt = 'SELECT MAX(%s) FROM %s'
+	stmt %= (prikey,tblname)
+	#
+	cur.execute(stmt)
+	data = cur.fetchone()
+	data = data[0]
+	return data
+
+#
+
+##################
+### DESC TABLE ###
+##################
+def desctbl(tblname):
+	hdl = myconn()
+	cur = hdl.cursor()
+	stmt = "DESC %s; " % tblname
+	cur.execute(stmt)
+	data = cur.fetchall()
+	return data
+
+#
+
+##################
+### GET HEADER ###
+##################
+def getheader(tblname):
+	from collections import OrderedDict
+	res = OrderedDict()
+	dbh = myconn()
+	cur = dbh.cursor(dictionary=True)
+	sql = 'DESC ' + tblname
+	cur.execute(sql)
+	for dic in cur.fetchall():
+		x = dic['Field']
+		y = dic['Type']
+		res[x] = y
+	cur.close()
+	dbh.close()
+	return res
+
+#
+
+### Crud #################################################
+
 #
 
 #############################
 ### LIST-DICT zu DATABASE ###
 #############################
-def ldic2db(ldic,dbname,tblname,keyid=''):
+def ldic2db(ldic,tblname,keyid=''):
 	kopfer = ldic[0].keys()
 	kopfer = list(kopfer)
 	kopfer.sort()
@@ -95,15 +167,23 @@ def ldic2db(ldic,dbname,tblname,keyid=''):
 #	print( stmt2 )
 #	stmt2 = 'SELECT * FROM auth_user'
 	#
-	dbh = myconn(dbname)
+	dbh = myconn()
 	cur = dbh.cursor()
 
 	### HAUPT ###
 	res = []
 	fehler = 0
-	for dic in ldic:
+	i = 0
+	while 1:
+		try:
+			dic = ldic[i]
+		except IndexError:
+			break
+		print( i ) #d
 
 		## Seek ##
+		"""
+		print( 1222 )
 		if not keyid == '':
 			cur.execute(stmt1 % dic[keyid])
 			data = cur.fetchone()
@@ -113,6 +193,8 @@ def ldic2db(ldic,dbname,tblname,keyid=''):
 #			elif data[0] == keyid:
 #				print( dic[keyid] )
 				continue
+		"""
+
 		## Insert ##
 		tup = []
 		for k in kopfer:
@@ -122,58 +204,71 @@ def ldic2db(ldic,dbname,tblname,keyid=''):
 			tup.append(w)
 		tup = tuple(tup)
 #		print( tup )
+		if ( i + 1 ) % 500 == 0:
+			print( '- Endet Nummer',i )
 		try:
 			cur.execute(stmt2,tup)
 		except mysql.connector.errors.IntegrityError:
-			print( dic['cid'],end=', ' )
+			# e.g. against UNIQUE RULE @2020-01-02
+			daemon_erholung(dic,'%%% INTEGRITY ERROR ')
+			continue
 		except mysql.connector.errors.DataError:
-			print( '' )
-			print( '%%% INSERSION FAILED ',end='' ) #d
-			print( '%'*20 ) #d
-			pprint.pprint( dic )
+			daemon_erholung(dic,'%%% INSERSION FAILED ')
 			fehler += 1
+			continue
 		except mysql.connector.errors.DatabaseError:
-			print( '%'*40 ) #d
-			pprint.pprint( tup )
-			cur.execute(stmt2,tup)
-			exit()
-		dbh.commit()
+			daemon_erholung(tup,'%%% DATABASE ERROR ')
+			continue
+		#
+		try:
+			dbh.commit()
+		except mysql.connector.errors.DatabaseError:
+			daemon_erholung(tup,'%%% DATABASE ERROR ')
+			i += 1
+			continue
+		except mysql.connector.errors.OperationalError:
+			daemon_erholung(tup,'%%% OPERATIONAL ERROR ')
+			continue
+
+		## Zahlen ##
+		i += 1
 
 	### BERICHT ###
+	dbh.close()
 	print( '[%s] Fehler ist %d !' % (tblname,fehler) )
 	return True
+
+### cRud #################################################
 
 #############################
 ### DATABASE zu LIST-DICT ###
 #############################
-def db2ldic(dbname,tblname):
-	hdl = myconn(dbname)
-	cur = hdl.cursor(dictionary=True)
-	#
-	stmt = 'SELECT * FROM ' + tblname
-	#
-	cur.execute(stmt)
-	data = cur.fetchall()
-	return data
+def db2ldic(tblname):
+	sql = 'SELECT * FROM ' + tblname
+	res = fetch(sql,True)
+	return res
+
+#
+
+#############
+### FETCH ###
+#############
+def fetch(sql,dicmode=True):
+	dbh = myconn()
+	cur = dbh.cursor(dictionary=dicmode)
+	cur.execute(sql)
+	res = cur.fetchall()
+	cur.close()
+	dbh.close()
+	return res
 
 def db2pd():
 	pass
 #http://thr3a.hatenablog.com/entry/20180813/1534119493
 
-def maxid(keyid,dbname,tblname):
-	hdl = myconn(dbname)
-	cur = hdl.cursor()
-	#
-	stmt = 'SELECT MAX(%s) FROM %s'
-	stmt %= (keyid,tblname)
-	#
-	cur.execute(stmt)
-	data = cur.fetchone()
-	data = data[0]
-	return data
-
-def db2sel(lis,colname,dbname,tblname):
-	hdl = myconn(dbname)
+"""
+def db2sel(lis,colname,tblname):
+	hdl = myconn()
 	cur = hdl.cursor(dictionary=True)
 	#
 	stmt = "SELECT * FROM %s WHERE %s = '%%s'; "
@@ -189,16 +284,11 @@ def db2sel(lis,colname,dbname,tblname):
 	return res
 	kopfer = res[-1].keys() #d
 	xz.ldic2txt(res,'a.tsv',kopfer) #d
+"""
 
-def desctbl(dbname,tblname):
-	hdl = myconn(dbname)
-	cur = hdl.cursor()
-	stmt = "DESC %s; " % tblname
-	cur.execute(stmt)
-	data = cur.fetchall()
-	pprint.pprint( data )
+### crUd #################################################
 
-def execmsql(stmt,dbname):
+def execmsql(stmt):
 	dbh = myconn('zg')
 	cur = dbh.cursor()
 
@@ -215,17 +305,8 @@ def execmsql(stmt,dbname):
 	dbh.close()
 	return True
 
-def fetch(sql,dbname,dicmode=True):
-	dbh = myconn(dbname)
-	cur = dbh.cursor(dictionary=dicmode)
-	cur.execute(sql)
-	res = cur.fetchall()
-	cur.close()
-	dbh.close()
-	return res
-
-def commit(sql,dbname):
-	dbh = myconn(dbname)
+def commit(sql):
+	dbh = myconn()
 	cur = dbh.cursor()
 	cur.execute(sql)
 	dbh.commit()
@@ -233,27 +314,89 @@ def commit(sql,dbname):
 	dbh.close()
 	return True
 
-def getheader(dbname,tblname):
-	from collections import OrderedDict
-	res = OrderedDict()
-	dbh = myconn(dbname)
-	cur = dbh.cursor(dictionary=True)
-	sql = 'DESC ' + tblname
-	cur.execute(sql)
-	for dic in cur.fetchall():
-		x = dic['Field']
-		y = dic['Type']
-		res[x] = y
-	cur.close()
-	dbh.close()
-	return res
-
-def execp(txt,name,dbname):
+"""
+def execp(txt,name):
 	sql = txt2sql(txt,name)
-	dbh = myconn(dbname)
+	dbh = myconn()
 	cur = dbh.cursor()
 	cur.execute(sql)
 	res = cur.fetchall()
 	cur.close()
 	dbh.close()
 	return res
+"""
+
+def replace(tblname,kolonne,idname,vor,nach):
+	stmt = 'SELECT %s,%s FROM %s'
+	stmt %= (idname,kolonne,tblname)
+	data = fetch(stmt)
+
+	dbh = myconn()
+	cur = dbh.cursor()
+
+	n = 0
+	summe = 1
+	stmt = "UPDATE %s SET %s = '%s' WHERE %s = %d"
+	for paar in data:
+		id = paar[idname]
+		w1 = paar[kolonne]
+		if w1 == None: continue
+		w2 = w1.replace(vor,nach)
+		w2 = w2.replace("'","\\'")
+		#
+		if w1 == w2: continue
+		sql = stmt % (tblname,kolonne,w2,idname,id)
+#		print( '%'*40,"\n",sql ) #d
+		cur.execute(sql)
+		dbh.commit()
+		#
+		n += 1
+		summe += 1
+		if n == 100:
+			dbh.commit()
+			n = 1
+	if n == 0:
+		dbh.commit()
+
+	dbh.close()
+	print( '* Summe als ',summe )
+
+#
+
+##########################
+### DICT zu UPDATE SQL ###
+##########################
+def dic2update(dic,tblname,keyid):
+
+	### TOR ###
+	assert keyid in dic
+	
+	### VORBEREITUNG ###
+	for k in dic.keys():
+		w = dic[k]
+		w = str(w)
+		w = w.replace("'","\\'")
+		dic[k] = w
+
+	### HAUPT ###
+	stmt = 'UPDATE ' + tblname
+	stmt += "\nSET "
+	lis = []
+	for k,w in dic.items():
+		if k == keyid: continue
+		w = "%s = '%s' " % (k,w)
+		lis.append(w)
+	stmt += ",\n".join(lis)
+	stmt += " \n"
+	stmt += 'WHERE cid = %s ;' % dic[keyid]
+	#
+	return stmt
+
+"""
+[SQLAlchemy Users]
+Yelp!
+reddit
+DropBox
+The OpenStack Project
+Survey Monkey
+"""

@@ -257,14 +257,14 @@ def sj2n(x):
 		return res
 
 def is_sg(x):
-	if re.match('^[MTSH]\d{1,2}\.1?\d\.[1-3]?\d$',x):
+	if re.match('^[MTSHR]\d{1,2}\.1?\d\.[1-3]?\d$',x):
 		return True
 	else:
 		return False
 
 def sg2d(x):
 	if not is_sg(x): return x
-	w = re.findall('^([MTSH])(\d{1,2})\.(1?\d)\.([1-3]?\d)$',x)
+	w = re.findall('^([MTSHR])(\d{1,2})\.(1?\d)\.([1-3]?\d)$',x)
 	g = g2y(w[0][0])
 	j = int(w[0][1])
 	m = int(w[0][2])
@@ -390,6 +390,11 @@ def k2s(x,sym='hhmmss'):
 		h,n = divmod( n,3600 )
 		m,s = divmod( n,60 )
 		x = '%02d:%02d:%02d' % (h,m,s)
+	elif sym == 'yymmdd':
+		d = x.days
+		j,n = divmod( d,365 )
+		m,t = divmod( n,30 )
+		x = '%02dY-%02dM-%02dD' % (j,m,t)
 	else:
 #		x = '%02d:%02d:%02d.%05d' % (h,m,s,ms)
 #		x = '%02d:%02d.%05d' % (m,s,ms)
@@ -803,7 +808,7 @@ def d2w(x): # 2018-05-20
 ### ZEIT in JAPANISHCE ###
 ##########################
 regex4gengou = """
-	^([MTSH])(\d{1,2})
+	^([MTSHR])(\d{1,2})
 	[\./-]
 	([01]?\d)
 	[\./-]

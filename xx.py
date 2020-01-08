@@ -369,10 +369,10 @@ def stamm2obj(ur,bin,blatt=0,opt={}):
 	#
 	## Wierderverwerten ##
 	if os.path.exists(bin):
-		print( '[UR  ]', xf.ctime(ur), ur )    #d
-		print( '[NACH]', xf.ctime(bin), bin ) #d
+		print( '[UR  ]', xf.ctime(ur),  '||', ur  ) #d
+		print( '[NACH]', xf.ctime(bin), '||', bin ) #d
 #		if xf.cdate(ur) <= xf.cdate(bin):
-		if xf.ctime(ur) >= xf.ctime(bin):
+		if xf.ctime(ur) <= xf.ctime(bin):
 			print( '#Wierderverwerten' ) #d
 			obj = xz.bin2obj(bin)
 			return obj

@@ -16,6 +16,7 @@ EIGENDATEI = 'a.txt'
 #####################
 def lookup(sache,dicfile):
 	sache = sache2list(sache)
+	print( dicfile ) #d
 	try:
 		dic = xz.txt2dic(dicfile)
 	except:
@@ -28,7 +29,7 @@ def lookup(sache,dicfile):
 			res.append(dic[x])
 		else:
 			res.append(x)
-	return sache
+	return res
 
 def replace(sache,listfile):
 	sache = sache2list(sache)

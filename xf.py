@@ -18,23 +18,35 @@ import xt
 debug = True
 debug = False
 
-def ctime(datei):
+def cutime(datei):
 	return os.path.getctime(datei)
 
-def mtime(datei):
+def mutime(datei):
 	return os.path.getmtime(datei)
 
-def atime(datei):
+def autime(datei):
 	return os.path.getatime(datei)
 
+def ctime(datei):
+	x = cutime(datei)
+	return xt.u2p(x)
+
+def mtime(datei):
+	x = mutime(datei)
+	return xt.u2p(x)
+
+def atime(datei):
+	x = autime(datei)
+	return xt.u2p(x)
+
 def cdate(datei):
-	x = ctime(datei)
+	x = cutime(datei)
 	return xt.u2d(x)
 def mdate(datei):
-	x = mtime(datei)
+	x = mutime(datei)
 	return xt.u2d(x)
 def adate(datei):
-	x = atime(datei)
+	x = autime(datei)
 	return xt.u2d(x)
 
 ##################
