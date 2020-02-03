@@ -61,6 +61,10 @@ def forex(preis,des='USD',aux='JPY',tag=''): # X-RATES
 	global TAGE
 	global UR
 
+	### INTMONAT ###
+	if isinstance(tag, int):
+		return forex4im(preis,des,aux,tag)
+
 	### BEDIGUNG ###
 	if TAGE == []:
 		TAGE = xz.txt2lis( UR + 'tage.tsv' )
@@ -69,9 +73,6 @@ def forex(preis,des='USD',aux='JPY',tag=''): # X-RATES
 		tag = HEUTE
 
 	### INTMONAT ###
-	if isinstance(tag, int):
-		return forex4im(preis,des,aux,tag)
-	#
 	if not des == 'USD':
 		if not des in FXDB:
 			eingang = UR + 'USD2%s.dic' % des
@@ -103,6 +104,7 @@ def forex(preis,des='USD',aux='JPY',tag=''): # X-RATES
 		preis = preis / des * aux
 	#
 #	return tag,preis #d
+#	print( '*',tag ) #d
 	return preis
 
 def forex4im(preis,des='USD',aux='JPY',tag=''): # X-RATES
@@ -113,6 +115,7 @@ def forex4im(preis,des='USD',aux='JPY',tag=''): # X-RATES
 		preis = FXDB4IM[aux][tag] * preis
 	elif aux == 'USD':
 		preis = preis / FXDB4IM[des][tag]
+		print( FXDB4IM[des][tag] )
 	else:
 		des = FXDB4IM[des][tag]
 		aux = FXDB4IM[aux][tag]
@@ -150,13 +153,13 @@ if __name__=='__main__':
 	elif mode == 3:
 		x = 10000
 		print( forex(x,'JPY','USD') )
-		print( forex(x,'USD','JPY') )
+		print( forex(x,'USD','JPY','2010-01-11') )
 		print( forex(x,'JPY','EUR') )
 		print( forex(x,'EUR','JPY') )
 		print( usd2jpy(10000) )
 		print( fx2d(10000,'GBP') )
 		print( d2fx(10000,'GBP') )
-		print( forex(x,'EUR','JPY',201212) )
+		print( forex(x,'EUR','JPY',198005) )
 	elif mode == 4:
 		dsy = 33.475  # BN (market capitalization)
 		ora = 193.560 # BN (market capitalization)

@@ -21,7 +21,7 @@ def replist(*lis_and_conds):
 	return res
 
 def whitelist(x,condlist):
-	for x in condlist:
+	for cond in condlist:
 		if cond in x:
 			return True
 	return False

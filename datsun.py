@@ -137,6 +137,14 @@ def mysort(lis,crit1):
 	res = [ re.sub('^\d\d.+?_','',x) for x in res ]
 	return res
 
+def mysort2(tbl,pos,crit):
+	assert( isinstance(lis, list) )
+	assert( isinstance(crit1, list) )
+	
+#	for lis in tbl:
+#		lis[]
+
+
 def compfile(des,aux):
 	import xkr
 	des = xkr.f2md5(des)

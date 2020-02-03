@@ -197,15 +197,17 @@ def d2sg(x):
 	#
 	## Transitional ##
 	if y == 2019:
-		g = 'H'
-		y2 = 1988
-		if x >= dy(2019,5,1):
+		if x < dy(2019,5,1):
+			g = 'H'
+			y2 = 1988
+		else:
 			g = 'R'
 			y2 = 2018
 	elif y == 1926:
-		g = 'T'
-		y2 = 1911
-		if x >= dy(1926,7,30):
+		if x < dy(1926,7,31):
+			g = 'T'
+			y2 = 1911
+		else:
 			g = 'S'
 			y2 = 1925
 	#
@@ -217,6 +219,7 @@ def d2sg(x):
 		elif y > 1911: g = 'T'; y2 = 1911
 		elif y > 1868: g = 'M'; y2 = 1868
 	y3 = y - y2
+#	print( y,y2,y3 ) #d
 	z = '%s%d.%d.%d' % (g,y3,m,d)
 	return z
 
@@ -275,6 +278,17 @@ def sg2d(x):
 def sg2s(x):
 	if not is_sg(x): return x
 	return str(sg2d(x))
+
+def d2sg2(x):
+	x = d2sg(x)
+	x = x.replace('M','明治')
+	x = x.replace('T','大正')
+	x = x.replace('S','昭和')
+	x = x.replace('H','平成')
+	x = x.replace('R','令和')
+	x = x.split('.')
+	x = x[0] + '年' + x[1] + '月' + x[2] + '日'
+	return x
 
 ##### From DATETIME to XXX ###
 def p2d(x):
@@ -346,8 +360,8 @@ def is_me(x): # Monatsende
 	assert( isinstance(x, dy) )
 	y = calendar.monthrange(x.year,x.month)[1]
 	y = dy(x.year,x.month,y)
-	print( x )
-	print( y )
+#	print( x ) #d
+#	print( y ) #d
 	if x == y:
 		return True
 	else:
@@ -725,13 +739,10 @@ def sec2time(x):
 ### MONAT zu SPRACHEN ###
 #########################
 def m2stafel():
-	try:
-		fh = open('conf/xt_m2s.tsv')
-#		fh = open('conf/xt_m2s.tsv',encoding='utf-8')
-	except FileNotFoundError:
-		fh = open('conf/xt_m2s.tsv')
-	tbl = fh.read()
-	fh.close()
+	
+	tbl = """
+	ENG	Jan	Feb	Mar	Apr	May	Jun	Jul	Aug	Sep	Oct	Nov	Dec
+	"""
 	#
 	res = {}
 	tbl = tbl.strip()
@@ -739,6 +750,11 @@ def m2stafel():
 	tbl = [ x.split("\t") for x in tbl ]
 	#
 	for lis in tbl:
+		while 1:
+			if lis[0] == '':
+				lis.pop(0)
+			else:
+				break
 		k = lis.pop(0)
 		res[k] = lis
 	#
@@ -754,6 +770,15 @@ def m2s(x,sp='ENG'):
 	if M2STABLE == {}: m2stafel()
 	#
 	return M2STABLE[sp][y-1]
+
+def s2m(x,sp='ENG'):
+	if not isinstance(x, str): return x
+	global M2STABLE
+	if M2STABLE == {}: m2stafel()
+	for i,monat in enumerate(M2STABLE[sp]):
+		if monat == x:
+			return i + 1
+	return x
 
 #
 

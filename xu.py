@@ -8,7 +8,6 @@ import pyautogui as pgui
 
 pgui.FAILSAFE = True
 
-
 if os.name == 'nt':
 	import ctypes
 	user32 = ctypes.windll.user32
@@ -19,7 +18,6 @@ if os.name == 'nt':
 elif os.name == 'posix':
 	BildschirmX = 777
 	BildschirmY = 777
-
 
 ### FEW BUTTON ###
 def fewbutton(times,key,press=''):
@@ -108,3 +106,14 @@ def fewclick(times,x,y):
 			pgui.click()
 		except PermissionError:
 			pass
+
+#
+
+######################
+### VIDEOAUFLÖSUNG ###
+######################
+def auflosung():
+#	from win32api import GetSystemMetrics
+	x = pgui.size().width
+	y = pgui.size().height
+	return (x,y)

@@ -49,7 +49,7 @@ read_only : on  --> more than 60 secs (gave up to bench it)
 	}
 	zahl = 0
 	ganz = False
-	
+
 	### VARIABLES ###
 	try:
 		wb = xl.load_workbook(datei, data_only=True, use_iterators=True, read_only=True)
@@ -84,7 +84,7 @@ read_only : on  --> more than 60 secs (gave up to bench it)
 		xi = ws.max_column
 		yj = ws.max_row
 #		print( xi,yj )
-		
+
 		### HAUPT ###
 		for j,row in enumerate( ws.iter_rows() ):
 
@@ -118,7 +118,7 @@ read_only : on  --> more than 60 secs (gave up to bench it)
 				except UnicodeEncodeError as e:
 					print(e,x)
 				lis.append( v )
-			
+
 			## Leer ##
 			if lis[0] == '':
 				zahl += 1
@@ -248,7 +248,7 @@ def tbl2newxls(tbl,xls): # this rarely happens
 def dtbl2xls(dtbl,xls='a.xlsx'):
 	# Schlussel muss "blatt/position" sein
 	wb = xl.load_workbook(xls)
-	
+
 	### HAUPT ###
 	for sh,tbl in dtbl.items():
 		sh = sh.split('/') # blatt/position
@@ -258,8 +258,7 @@ def dtbl2xls(dtbl,xls='a.xlsx'):
 		elif len(sh) > 1:
 			pos = sh[1]
 			sh = sh[0]
-			
-			
+
 		ws = wb[sh]
 		pos = cell2pos(pos)
 		xi = pos[0]
@@ -312,7 +311,7 @@ def cell2pos(cell):
 	x = 0
 	w = m.group(1)
 	y = int(m.group(2))
-	
+
 	if len(w) == 1:
 		x = abc2num[w]
 	elif len(w) == 2:
@@ -326,7 +325,6 @@ def cell2pos(cell):
 		x = x1 + x2 + x3
 	return (x,y)
 	return [x,y]
-
 
 def test4cell2pos():
 	paar = xz.txt2tbl('benchbuch/xx_pruf4cell2pos.tsv')
@@ -352,9 +350,9 @@ def stamm2obj(ur,bin,blatt=0,opt={}):
 	STAMM kommst aus "STAMMDATEN"
 	https://de.wikipedia.org/wiki/Stammdaten
 	"""
-	
+
 	import xf
-	
+
 	### VORBEREITUNG ###
 	ldic = opt.get('ldic',False)
 	ddic = opt.get('ddic',False)
@@ -364,15 +362,15 @@ def stamm2obj(ur,bin,blatt=0,opt={}):
 #	print( ldic ) #d
 #	print( ddic ) #d
 #	print( ddickey ) #d
-	
+
 	### HAUPT ###
 	#
 	## Wierderverwerten ##
 	if os.path.exists(bin):
-		print( '[UR  ]', xf.ctime(ur),  '||', ur  ) #d
-		print( '[NACH]', xf.ctime(bin), '||', bin ) #d
+		print( '[UR  ]', xf.mtime(ur),  '||', ur  ) #d
+		print( '[NACH]', xf.mtime(bin), '||', bin ) #d
 #		if xf.cdate(ur) <= xf.cdate(bin):
-		if xf.ctime(ur) <= xf.ctime(bin):
+		if xf.mtime(ur) <= xf.mtime(bin):
 			print( '#Wierderverwerten' ) #d
 			obj = xz.bin2obj(bin)
 			return obj
@@ -385,9 +383,71 @@ def stamm2obj(ur,bin,blatt=0,opt={}):
 		if ddic == True:
 			obj = xz.ldic2ddic(obj,ddickey)
 	xz.obj2bin(obj,bin)
-	
+
 	### AUSGABE ###
 	return obj
+
+#
+
+#############
+### MAKRO ###
+#############
+def xls2makro(xls,warten2=30):
+
+	### MODULE ###
+	import pyautogui as pgui
+	import clipboard
+	import time
+	pgui.FAILSAFE = True
+
+	### KONSTANT ###
+	xls = xls.replace('/','\\')
+	warten1 = 5
+	
+	### BEDIGUNG ###
+#	os.system('taskkill /IM "excel.exe" /F ')
+
+	### HAUPT ###
+	pgui.keyDown('winleft')
+	pgui.press('r')
+	pgui.keyUp('winleft')
+#	pgui.keyUp('windows')
+#	pgui.typewrite('excel '+xls) # ASCII Keyboard
+	clipboard.copy('excel '+xls)
+	pgui.keyDown('ctrl')
+	pgui.press('v')
+	pgui.keyUp('ctrl')
+	pgui.press('enter')
+	#
+	time.sleep(warten1)
+	for i in range(5):
+		pgui.press('enter')
+#	xu.sleep(2)  # ich möchte Freiheit haben!
+	pgui.keyDown('alt')
+	pgui.press('space')
+	pgui.keyUp('alt')
+	pgui.press('r')
+	time.sleep(1)
+	#
+	pgui.keyDown('alt')
+	pgui.press('f8')
+	pgui.keyUp('alt')
+	pgui.press('enter')
+#	xu.sleep(traum)  # ich möchte Freiheit haben!
+	if warten2 > 0:
+		time.sleep(warten2)
+		#
+#		pgui.keyDown('alt') # 2020-02-02
+#		pgui.press('f4')    # 2020-02-02
+#		pgui.keyUp('alt')   # 2020-02-02
+	return True
+	#
+	cmd = 'taskkill /IM "excel.exe" /F '
+	pgui.keyDown('winleft')
+	pgui.press('r')
+	pgui.keyUp('winleft')
+	pgui.press('enter')
+	time.sleep(1)
 
 #
 

@@ -109,6 +109,7 @@ def serie2ein(ordner,gemein,tag=45,**opt):
 		## Ausnahme ##
 		if not gemein in datei: continue
 		if datei == gemein: continue
+#		print( datei ) #d
 		#
 		m = re.search('(\d{4}-\d{2}-\d{2})',datei)
 		if m:

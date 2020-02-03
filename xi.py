@@ -143,6 +143,44 @@ def qbilden2bild(des,ex): bilden2bild(des,ex,2,2)
 
 #
 
+#######################
+### IMAGE zu STRING ###
+#######################
+def img2str(datei,sprache='eng'):
+	import pytesseract as ocr
+	from PIL import Image
+
+	### same drive rule, on windows ##
+	#https://github.com/madmaze/pytesseract/issues/50
+	hier = os.getcwd()
+	os.chdir('C:')
+
+	cmd = 'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe'
+	#cmd = 'C:/Program Files (x86)/Tesseract-OCR/tesseract'
+	cmd = 'C:/usr/Tesseract-OCR/tesseract.exe'
+	cmd = 'C:/usr/Tesseract-OCR/tesseract'
+	ocr.pytesseract.tesseract_cmd = cmd
+
+	# Simple image to string
+	img = Image.open(datei)
+	#x = ocr.image_to_string(img,lang='fra')
+	x = ocr.image_to_string(img,lang=sprache)
+	return x
+
+def imgpfad2str(pfad,ausgabe):
+	ds = os.listdir(pfad)
+	gh = open(ausgabe, 'w',encoding='utf-8')
+	for png in ds:
+		print( png ) #d
+		x = img2str(pfad+png)
+		gh.write("<IMG>%s\n" % png)
+		gh.write(x)
+		gh.write("\n\n\n")
+		gh.flush()
+	gh.close()
+
+#
+
 ##### DIREKT ###############
 if __name__=='__main__':
 	pass
