@@ -8,7 +8,7 @@ import os
 #import kbench
 from datsun import *
 #
-import mich.will2
+#import mich.will2
 
 ### VARIABLES ###
 debug = True

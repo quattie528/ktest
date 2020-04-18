@@ -17,6 +17,7 @@ EOI エンドマーカ 　(End of Image) 　　0xFFD9
 DQT 量子化テーブル定義　　(Define Quantization Table) 0xFFDB
 DHT ハフマンテーブル定義　(Define Huffman Table)　　　0xFFD4
 -------------------------------------------------
+[raster]
 'rgb' 	SGI ImgLib Files
 'gif' 	GIF 87a and 89a Files
 'pbm' 	Portable Bitmap Files
@@ -28,6 +29,12 @@ DHT ハフマンテーブル定義　(Define Huffman Table)　　　0xFFD4
 'jpeg' 	JPEG data in JFIF or Exif formats
 'bmp' 	BMP files
 'png' 	Portable Network Graphics
+
+[vector]
+SVG
+EPS
+PDF
+AI
 """
 
 def imageformat(img):

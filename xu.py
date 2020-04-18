@@ -5,9 +5,12 @@ import os
 import time
 import clipboard
 import pyautogui as pgui
+#
+import xz
 
 pgui.FAILSAFE = True
 
+"""
 if os.name == 'nt':
 	import ctypes
 	user32 = ctypes.windll.user32
@@ -16,8 +19,70 @@ if os.name == 'nt':
 #	print( BildschirmX ) #d
 #	print( BildschirmY ) #d
 elif os.name == 'posix':
-	BildschirmX = 777
-	BildschirmY = 777
+	BildschirmX = pgui.size().width
+	BildschirmY = pgui.size().height
+"""
+
+#-------------------------------------------------
+##################
+### MAUSKATZE  ###
+##################
+class mauskatze(dict):
+	def __init__(my,wert):
+		if isinstance(wert, str):
+			ddic = xz.txt2ddic(wert,'KEY')
+		elif isinstance(wert, dict):
+			ddic = wert
+		else:
+			assert isinstance(wert, dict)
+
+		for k,dic in ddic.items():
+			my[k] = {}
+			my[k]['X'] = int( dic['X'] )
+			my[k]['Y'] = int( dic['Y'] )
+
+	def klick(my,ref,schau=False):
+		x = my[ref]['X']
+		y = my[ref]['Y']
+		click(x,y)
+		if schau == True:
+			x = '# Klicken, X:%d, Y:%d' % (x,y)
+			print( x )
+
+	def rklick(my,ref,schau=False):
+		x = my[ref]['X']
+		y = my[ref]['Y']
+		click(x,y,'right')
+		if schau == True:
+			x = '# Klicken, X:%d, Y:%d' % (x,y)
+			print( x )
+
+	def gleit(my,ref,wieviel,xy='X',sprung=10):
+		assert isinstance(wieviel, int)
+		assert xy in 'XY'
+		assert isinstance(sprung, int)
+		for i in range(wieviel):
+			x = my[ref]['X']
+			y = my[ref]['Y']
+			if xy == 'X':
+				x += i * sprung
+			elif xy == 'Y':
+				y += i * sprung
+			click(x,y,lr)
+	def xgleit(my,ref,n,sprung): gleit(ref,n,'X',sprung)
+	def ygleit(my,ref,n,sprung): gleit(ref,n,'Y',sprung)
+"""
+[BEISPIEL für MAUSKATZE]
+KEY	X	Y
+NUL	025	300
+PLA	263	100
+BSA	364	100
+ANN	534	100
+QTR	592	100
+"""
+#-------------------------------------------------
+
+#
 
 ### FEW BUTTON ###
 def fewbutton(times,key,press=''):
@@ -81,7 +146,10 @@ def copyall():
 def sleep(sek):
 #	print( BildschirmX ) #d
 #	print( BildschirmY ) #d
-	pgui.moveTo(BildschirmX,BildschirmY)
+	x = pgui.size().width  - 50
+	y = pgui.size().height - 50
+#	pgui.moveTo(BildschirmX,BildschirmY)
+	pgui.moveTo(x,y)
 	if sek < 8:
 #		pgui.moveTo(200,200)
 		pgui.moveTo(2,2,sek)
@@ -98,6 +166,10 @@ def click(x,y,lr='left'):
 	except PermissionError:
 		pass
 
+def clickhere():
+	x, y = pgui.position()
+	click(x,y)
+
 ### FEW CLICK ###
 def fewclick(times,x,y):
 	for i in range(times):
@@ -106,6 +178,11 @@ def fewclick(times,x,y):
 			pgui.click()
 		except PermissionError:
 			pass
+
+def max2left():
+	pgui.hotkey('alt','space')
+	pgui.press('x')
+	pgui.hotkey('win','left')
 
 #
 

@@ -531,9 +531,9 @@ def regenbogen(sache):
 ### BACKFILL ###
 ################
 def backfill(sache):
-	sache = sache2sachet(sache)
+	sache = sache2list(sache)
 	assert not sache[0] == ''
-	vor = lis[0]
+	vor = sache[0]
 	res = []
 	for x in sache:
 		if x == '':
@@ -543,6 +543,39 @@ def backfill(sache):
 			vor = x
 		res.append(y)
 	return res
+
+def fs2agdb(sache):
+	import fdicklass
+	sache = sache2list(sache)
+	sache = [ x.split("\t") for x in sache ]
+	sache = fdicklass.dritt2agdbfmt(sache)
+	return sache
+
+def countif_aus_hier(sache):
+#	sache = sache2list(sache)
+	sache = xz.txt2lis(sache)
+	dic = {}
+	res = []
+	for x in sache:
+		if x in dic:
+			dic[x] += 1
+		else:
+			dic[x] = 1
+		res.append([x,dic[x]])
+	#
+	sache = [ x[0]+"\t"+str(x[1]) for x in res ]
+	return sache
+
+def bibliotheken(sache):
+	import bibliothek
+	sache = xz.txt2lis(sache)
+	sache = bibliothek.isbns2daten(sache)
+	sache = [ "\t".join(x) for x in sache ]
+	txt = bibliothek.xmls2ein()
+	sache.append(txt)
+	print( txt )
+	return sache
+
 
 #
 

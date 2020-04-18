@@ -160,7 +160,7 @@ def serie2ein(ordner,gemein,tag=45,**opt):
 #######################################################################
 ### BEWEGT AUS dir.py ###
 #########################
-def get_all_files(pfad):
+def alle_dateien(pfad):
 	db = os.walk(pfad)
 	res = []
 	for tp in db:
@@ -175,15 +175,15 @@ def get_all_files(pfad):
 	return res
 """
 #Comment out @ 2019-06-30
-def get_all_files_2(pfad):
+def alle_dateien_2(pfad):
 	db = os.walk(pfad)
 	db = [ d[0].replace('\\','/') + '/' for d in db ]
 	db = [ d.replace('//','/') for d in db ]
 	return db
 """
 
-def get_all_size(pfad,strict=True):
-	res = get_all_files(pfad)
+def gesamtgrose(pfad,strict=True):
+	res = alle_dateien(pfad)
 	sum = 0
 	for x in res:
 		if strict == True:
@@ -198,7 +198,7 @@ def get_all_size(pfad,strict=True):
 	return sum
 
 def get_count(pfad):
-	return len( get_all_files(pfad) )
+	return len( alle_dateien(pfad) )
 
 #
 
@@ -244,11 +244,11 @@ def mkdir2(pfad):
 ### RMDIR ###
 #############
 def rmdir2(pfad):
-	pfade = get_all_files(pfad)
+	pfade = alle_dateien(pfad)
 	pfade.reverse()
 	res = []
 	for w in pfade:
-		if get_all_size(w) == 0:
+		if alle_dateien(w) == 0:
 			os.rmdir(w)
 			res.append(w)
 		else:
@@ -317,7 +317,7 @@ def findfat(pfad):
 ### ÄLTER RANG in DATEIEN ###
 #############################
 def aelter(pfad,rang=20):
-	ds = get_all_files(pfad)
+	ds = alle_dateien(pfad)
 	zt = 0
 	ds = [ [d,xt.u2p(mtime(d))] for d in ds ]
 	ds = sorted(ds,key=lambda d:d[1])
@@ -338,6 +338,22 @@ def aelter(pfad,rang=20):
 
 #
 
+#########################
+### ÄLTEST in DATEIEN ###
+#########################
+def aeltest(dateien):
+	res = []
+	for d in dateien:
+		zt = mtime(d)
+		res.append([d,zt])
+	res = sorted(res,key=lambda d:d[1])
+#	pprint.pprint( res ) #
+	x = res[-1][0]
+#	print( x ) #d
+	return x
+
+#
+
 ##### DIREKT ###############
 if __name__=='__main__':
 	pass
@@ -352,5 +368,9 @@ These 2 files are similar but messed
 ### MEMO @ 2018-12-24 ###
 ONE DAY I HAVE TO DO "xf.py" + "xo.py" + "dir.py"
 These 2 files are similar but messed
+
+### MEMO @ 2020-03-XX ###
+get_all_files() -> alle_dateien()
+get_all_size() -> gesamtgrose()
 """
 #C:\Users\kakagami\AppData\Local\Temp

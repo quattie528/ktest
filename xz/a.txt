@@ -1,0 +1,15 @@
+show4cli.py
+(8): def value4show(v):
+show4cli.py(30): def showtable(var,lens):
+show4cli.py(36): 			x = value4show(x)
+show4cli.py(71): def show(var,header=[]):
+show4cli.py(108): 			i = japonais.len( value4show(x) )
+show4cli.py(111): 			i = japonais.len( value4show(x) )
+show4cli.py(133): 				q = japonais.len( value4show( var[i][j] ) )
+show4cli.py(135): 		showtable(var,lens)
+show4cli.py(146): 			for x in header: lis.append( value4show( dic[x] ) )
+show4cli.py(155): 				q = japonais.len( value4show( var[i][j] ) )
+show4cli.py(159): 		showtable([header],lens)
+show4cli.py(166): 		showtable(var,lens)
+show4cli.py(168): 		showtable([header],lens)
+__init__.py(14): from .show4cli import *

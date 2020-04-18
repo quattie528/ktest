@@ -41,7 +41,7 @@ def jetzt(ruck=False):
 def enfin(befehl2=''):
 
 	### DRITT ###
-	if not myname == 'quattie528':
+	if not myhost in ['derrida8','weber3']:
 		jetzt()
 		return False
 	if KBDEBUG == True:
@@ -83,7 +83,7 @@ def enfin(befehl2=''):
 	gh.close()
 	#
 #	exit() #d
-#	print( dauer ) #d
+	print( dauer ) #d
 	return dauer
 	return True
 
@@ -95,7 +95,7 @@ def enfin(befehl2=''):
 def tafel4fx(tafel,titel,beispiel=[]):
 
 	### DRITT ###
-	if not myname == 'quattie528':
+	if not myhost == 'derrida8':
 		jetzt()
 		return False
 
@@ -184,6 +184,8 @@ def tafel4fx(tafel,titel,beispiel=[]):
 ##### DIREKT ###############
 if __name__=='__main__':
 
+#	print( kbenchset )
+#	print( kbenchlog )
 	mode = 1
 	if mode == 1:
 		tbl = [

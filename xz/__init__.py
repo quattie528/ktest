@@ -6,6 +6,7 @@ from .qldic    import *
 from .qdlis    import *
 from .qddic    import *
 from .dic8ldic import *
+from .qnum     import *
 
 from .binary import *
 from .konfig import *

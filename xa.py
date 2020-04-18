@@ -55,6 +55,11 @@ def txts2pdf(txts,ex):
 def url2pdf(x,ex):
 	pdfkit.from_url(x,ex)
 
+
+### PDF to TXT ###
+def pdf2str(pdf):
+	pdfkit.from_string()
+
 #
 
 ### MERGE PDF ###
@@ -112,5 +117,9 @@ def dir2pdf(pfad,ex='a.pdf',fmt='png'): # 2016-05-21
 ##### DIREKT ###############
 #from loch import * #d
 if __name__=='__main__':
-	ex = labomi+'y.pdf'
-	dir2pdf(ord,ex)
+#	ex = labomi+'y.pdf'
+#	dir2pdf(ord,ex)
+#	pdf = 'D:/OneDrive/zzz/ir/fukoku_2009Q4_AR.pdf'
+#	pdf2str(pdf)
+	
+	pdfkit.from_url('http://google.com', 'out.pdf')

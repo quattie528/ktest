@@ -1,4 +1,5 @@
 from datsun import *
+import xz
 
 #
 
@@ -46,22 +47,6 @@ def showtable(var,lens):
 		res += "\n"
 	print( res )
 	return True
-	#
-	import tabulate
-#	fmt = 'plain'
-#	fmt = 'simple'
-#	fmt = 'grid'
-#	fmt = 'fancy_grid'
-#	fmt = 'pipe'
-	fmt = 'orgtbl' # basic
-#	fmt = 'rst'
-#	fmt = 'mediawiki'
-#	fmt = 'html'
-#	fmt = 'latex'
-#	fmt = 'latex_booktabs'
-	res = tabulate.tabulate(var, headers="firstrow",tablefmt=fmt)
-	print( type(res) ) #d -> str
-	print( res )
 
 #
 
@@ -72,6 +57,7 @@ def show(var,header=[]):
 
 	### MODUL ###
 	import japonais
+	import pandas
 
 	### VARIABLE ###
 	mode = ''
@@ -80,6 +66,8 @@ def show(var,header=[]):
 	### MODE ###
 	if isinstance(var,dict):
 		mode = 'dic'
+	elif isinstance(var,pandas.core.frame.DataFrame):
+		mode = 'pds'
 	elif isinstance(var,list):
 		if var == []:
 			print( '* Achtung, Leer Liste!' )
@@ -167,6 +155,53 @@ def show(var,header=[]):
 		print('-'*i)
 		showtable([header],lens)
 
+	### PANDAS ###
+	elif mode == 'pds':
+		for x in var.columns:
+			typ = var[x].dtype
+			if typ == 'float64':
+				var[x] = var[x].astype('int64')
+		tmp = labomi+'x.tsv'
+		var.to_csv(tmp,sep="\t")
+		tbl = xz.txt2tbl(tmp)
+		show(tbl)
+
 	## Gegenreaktion (contrecoup/backlash) ###
 	if not zelle == {}:
 		var.insert(0,zelle)
+
+#
+
+#####################
+### SHOW (reborn) ###
+#####################
+def show2(res,fmt='psql'):
+	import tabulate
+	"""
+	https://pypi.org/project/tabulate/
+	plain/simple/github/grid/fancy_grid/pipe/
+	orgtbl/jira/presto/psql/rst/mediawiki/moinmoin/
+	youtrack/html/
+	latex/latex_raw/latex_booktabs/textile/
+
+	orgtbl is the basic
+	"""
+
+	for i in range(len(res)):
+		for j in range(len(res[0])):
+			x = res[i][j]
+			x = xz.bless(x)
+			x = value4show(x)
+			res[i][j] = x
+
+	fmt = 'github'
+	fmt = 'psql' # Das ist das hochst @ 2020-02-09
+	res = tabulate.tabulate(res,headers="firstrow",tablefmt=fmt)
+#	print( type(res) ) #d -> str
+
+	if fmt == 'psql':
+		res = res.split("\n")
+		res.append(res[1])
+		res.append(res[0])
+		res = "\n".join(res)
+	print( res )

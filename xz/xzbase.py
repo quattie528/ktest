@@ -39,7 +39,19 @@ if debug == True:
 #import pdb
 #import pdb; pdb.set_trace
 
-#
+#-------------------------------------------------
+
+#############
+### KLASS ###
+#############
+class listdict(list):
+	header = []
+class dictdict(dict):
+	header = []
+class dictlist(dict):
+	header = []
+
+#-------------------------------------------------
 
 #############
 ### BLESS ###
@@ -261,13 +273,16 @@ def headerconvert(var,headerdic):
 		return res
 
 ##### STRING to ??? ###############
-def str2txt(x,ex): # gigi
-	gh = open(ex,'w',encoding='utf-8')
+def str2txt4all(x,ex,mode): # gigi
+	gh = open(ex,mode,encoding='utf-8')
 	gh.write(x)
 	gh.flush()
 	gh.close
 	__tell_output(ex)
 	__bin_output(x,ex)
+
+def str2txt(x,ex): str2txt4all(x,ex,'w')
+def str2log(x,ex): str2txt4all(x,ex,'a')
 
 ### STRING to LIST ###
 def str2lis(v):
@@ -357,7 +372,8 @@ def str2ldic(v):
 	### VARIABLES ###
 	kopfer = getheader(v)
 	ion = str2io(v)
-	res = []
+	res = listdict()
+	res.header = kopfer
 	ini = False
 
 	### HAUPT ###
@@ -426,9 +442,17 @@ def str2adic(var):
 	return attrdict.AttrDict(var)
 
 ### STRING to ORDERED-DICT ###
-def str2odic(var):
-	var = str2dic(var)
-	return OrderedDict(var)
+def str2odic(var,autobless=True):
+	var = str2dic(var,ord=True)
+	if autobless == True:
+		dic = OrderedDict()
+		for k,w in var.items():
+			k = bless(k)
+			w = bless(w)
+			dic[k] = w
+		var = dic
+	return var
+#	return OrderedDict(var)
 
 ### STRING to ATTR-DICT*ATTR-DICT ###
 def str2aadic(var,key):
@@ -505,7 +529,8 @@ def tbl2ldic(tbl):
 			x = x.replace("\n",' ')
 		kopfer.append(x)
 
-	res = []
+	res = listdict()
+	res.header = kopfer
 	for lis in tbl:
 		dic = {}
 #		print( kopfer )
@@ -519,7 +544,7 @@ def tbl2ldic(tbl):
 def ldic2tbl(ldic,kopfer=[],schaukopfer=True):
 	if kopfer == []:
 		kopfer = list( ldic[0].keys() )
-	tbl = []
+	tbl = listdict()
 	for dic in ldic:
 		lis = [ dic[k] for k in kopfer ]
 		tbl.append(lis)
@@ -532,7 +557,7 @@ def tbl2ddic(tbl,key):
 	return ldic2ddic(ldic,key)
 
 def tbl2dlis(tbl):
-	res = {}
+	res = dictlist()
 	for lis in tbl:
 		k = lis.pop(0)
 		res[k] = lis
@@ -557,7 +582,12 @@ def ldic2dic(ldic,k,v):
 
 ### LIST-DICT to DICT-DICT ###
 def ldic2ddic(ldic,k,**opt):
-	res = {}
+	res = dictdict()
+	try:
+		res.header = ldic.header
+	except AttributeError:
+		res.header = list(ldic[0].keys())
+	#
 	for dic in ldic: res[ dic[k] ] = dic
 	if opt.get('delkey') == True:
 		for key,dic in res.items():
@@ -959,7 +989,8 @@ def dlis2tbl(dlis,kopfer):
 if __name__=='__main__':
 	import pprint
 	txt = ''
-	d = yml2cnf(txt)
-	pprint.pprint( d )
+	lis = listdict([])
+#	d = yml2cnf(txt)
+#	pprint.pprint( d )
 
 #add flush(), from the lecture yesterday @ 2017-12-04

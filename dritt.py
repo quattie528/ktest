@@ -77,7 +77,7 @@ def which_browser():
 	res = {}
 	res['heute'] = datetime.date.today()
 	for pfad in [pfad1,pfad2]:
-		ds = xf.get_all_files(pfad)
+		ds = xf.alle_dateien(pfad)
 		for d in ds:
 #			print( '-'*40 )
 #			print( d )

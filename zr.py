@@ -6,7 +6,7 @@ import pprint
 import os
 #
 #import attrdict
-import pandas
+import pandas as pd
 #
 from datsun import *
 import xz
@@ -201,6 +201,19 @@ def zrt2zrm(zrt):
 		zrm[im] = zrt[tag]
 
 	return zrm
+
+#
+
+### ----------------------------------------- ###
+### 2020-02-09 ------------------------------ ###
+### ----------------------------------------- ###
+def inifin2idx(ini,fin):
+	assert isinstance(ini, datetime.date)
+	assert isinstance(fin, datetime.date)
+	fin = datetime.date(fin.year,fin.month,1)
+	res = pd.date_range(ini,fin, freq='M')
+	print( res )
+
 
 #
 

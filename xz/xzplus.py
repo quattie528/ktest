@@ -102,10 +102,16 @@ def kml2tsv(des,aux):
 		for i in range( len(res1) ):
 			d1 = res1[i]
 			d2 = res2[i]
-			print( '#',i )
+#			print( '#',i ) #d
 			if d1 == d2: continue
-			print( d1 )
-			print( d2 )
+			try:
+				print( d1 )
+			except UnicodeEncodeError:
+				pass
+			try:
+				print( d2 )
+			except UnicodeEncodeError:
+				pass
 #			break
 		assert( 1 == 2 )
 

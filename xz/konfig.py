@@ -16,14 +16,25 @@ def yml2cnf(txt):
 	with open(txt, 'r',encoding='utf-8') as f:
 		x = f.read()
 	x = x.replace("\t",'  ')
-	x = x.replace('<UR>',urpfad)
-	x = x.replace(urpfad+'/',urpfad)
+	x = x.replace('<UR>',mywkpl)
+	x = x.replace(mywkpl+'/',mywkpl)
 
 	ion = io.StringIO(x)
 	dic = yaml.load(ion,Loader=yaml.BaseLoader)
 #	dic = attrdict.AttrDict(dic)
 	dic = confdict(dic)
 	return dic
+
+def yml2conv(txt):
+	cnf = xz.yml2cnf(txt)
+	res = {}
+	for k,w in cnf.items():
+		if isinstance(w, str):
+			res[w] = k
+		elif isinstance(w, list):
+			for w2 in w:
+				res[w2] = k
+	return res
 
 #
 

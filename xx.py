@@ -26,6 +26,8 @@ for i,x in enumerate('ABCDEFGHIJKLMNOPQRSTUVWXYZ'):
 
 DRITT = True
 DRITT = False
+DEBUG = True
+DEBUG = False
 
 ##### VIELHEIT ###############
 def xls2tbls( datei, shs=[], strict=True ):
@@ -341,54 +343,6 @@ def test(datei):
 
 #
 
-##################
-### XLS zu BIN ###
-##################
-def stamm2obj(ur,bin,blatt=0,opt={}):
-#def xls2obj(bin,xls,blatt=0): # 2019-11-04
-	"""
-	STAMM kommst aus "STAMMDATEN"
-	https://de.wikipedia.org/wiki/Stammdaten
-	"""
-
-	import xf
-
-	### VORBEREITUNG ###
-	ldic = opt.get('ldic',False)
-	ddic = opt.get('ddic',False)
-	ddickey = opt.get('ddickey','')
-	if ddic == True:
-		ldic = True
-#	print( ldic ) #d
-#	print( ddic ) #d
-#	print( ddickey ) #d
-
-	### HAUPT ###
-	#
-	## Wierderverwerten ##
-	if os.path.exists(bin):
-		print( '[UR  ]', xf.mtime(ur),  '||', ur  ) #d
-		print( '[NACH]', xf.mtime(bin), '||', bin ) #d
-#		if xf.cdate(ur) <= xf.cdate(bin):
-		if xf.mtime(ur) <= xf.mtime(bin):
-			print( '#Wierderverwerten' ) #d
-			obj = xz.bin2obj(bin)
-			return obj
-	#
-	## Laden ##
-	print( '#Laden' ) #d
-	obj = xls2tbl(ur,blatt)
-	if ldic == True:
-		obj = xz.tbl2ldic(obj)
-		if ddic == True:
-			obj = xz.ldic2ddic(obj,ddickey)
-	xz.obj2bin(obj,bin)
-
-	### AUSGABE ###
-	return obj
-
-#
-
 #############
 ### MAKRO ###
 #############
@@ -403,7 +357,7 @@ def xls2makro(xls,warten2=30):
 	### KONSTANT ###
 	xls = xls.replace('/','\\')
 	warten1 = 5
-	
+
 	### BEDIGUNG ###
 #	os.system('taskkill /IM "excel.exe" /F ')
 
@@ -435,24 +389,40 @@ def xls2makro(xls,warten2=30):
 	pgui.press('enter')
 #	xu.sleep(traum)  # ich möchte Freiheit haben!
 	if warten2 > 0:
+		print( 'Warten fuer', warten2 ) #d
 		time.sleep(warten2)
 		#
 #		pgui.keyDown('alt') # 2020-02-02
 #		pgui.press('f4')    # 2020-02-02
 #		pgui.keyUp('alt')   # 2020-02-02
 	return True
-	#
+
+def xlsmorder():
+	import subprocess
+	cmd = 'taskkill /IM "excel.exe" /F '
+	subprocess.call(cmd, shell=True)
+	return 1
+	"""
+	import pyautogui as pgui
+	import time
 	cmd = 'taskkill /IM "excel.exe" /F '
 	pgui.keyDown('winleft')
 	pgui.press('r')
 	pgui.keyUp('winleft')
 	pgui.press('enter')
 	time.sleep(1)
+	"""
+
+def xls2header(datei,sh=0):
+	res = xls2tbl(datei,sh)
+	res = res[0]
+	return res
 
 #
 
 ##### DIREKT ###############
 if __name__=='__main__':
+#	xlsmorder()
 	pass
 
 #TypeError: 'generator' object is not subscriptable

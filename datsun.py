@@ -204,7 +204,9 @@ def predict(*var):
 	for v in var:
 		print( "\t---", v )
 
-def clip(x):
+def clip(x,datei=False):
+	if datei == True:
+		x = x.replace('/','\\')
 	clipboard.copy(x)
 	print( '* CLIPPED : ' + str(x) )
 

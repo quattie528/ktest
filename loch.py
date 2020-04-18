@@ -1,21 +1,30 @@
 ### MODUL ###
 import os
-import pprint
+#import pprint
 import yaml
 
 ### KOPFER ###
+#kys = [
+#	'labomi','inconf','mydata','myname','urpfad',
+#	'klogpfad','kbenchlog','kbenchset'
+#]
 kys = [
-	'labomi','inconf','mydata','myname','urpfad',
-	'klogpfad','kbenchlog','kbenchset'
+	'labomi','myhost',
+	'mywkpl','mydwld',
+	#
+	'mymart','myderi','mylogg','mymeta',
+	'mylang','myhow2','mysymb','mycols',
+	#
+	'kbenchlog','kbenchset',
 ]
 
 ### HAUPT ###
-datei = 'D:/var/conf.txt'
+datei = 'C:/usr/proc/conf.yml'
 #datei = 'D:/var/debug.txt' #d
 if os.name == 'posix':
-	datei = '/Users/katsushi/vw/var/conf.txt'
+	datei = '~/.maconf.txt'
 if not os.path.exists(datei):
-	datei = 'conf.txt'
+	datei = 'conf.yml'
 #	datei = 'debug.txt' #d
 
 if os.path.exists(datei):
@@ -25,7 +34,8 @@ else:
 	dic = { x:'' for x in kys }
 	if os.name == 'posix':
 		dic['labomi'] = '/tmp/labomi/'
-		os.mkdir(dic['labomi'])
+		if not os.path.exists( dic['labomi'] ):
+			os.mkdir(dic['labomi'])
 	elif os.name == 'nt':
 #		import platform
 #		myname = platform.uname()[1]
@@ -41,13 +51,24 @@ else:
 		if not os.path.exists(datei):
 			os.mkdir(datei)
 
-labomi = dic['labomi']
-inconf = dic['inconf']
-mydata = dic['mydata']
-myname = dic['myname']
-urpfad = dic['urpfad'] # erinnern @ 2019-11-23, für teilen mit AG
 #
-klogpfad  = dic['klogpfad']
+
+### KONSTANT-IEREN ###
+labomi = dic['labomi']
+myhost = dic['myhost'] # erinnern Weber "Ruf, Ruk, Beruf" @ 2020-04-05
+#
+mywkpl = dic['mywkpl'] # erinnern @ 2019-11-23, für teilen mit AG
+mydwld = dic['mydwld'] # My Workplace and Download
+#
+mymart = dic['mymart']
+myderi = dic['myderi']
+mylogg = dic['mylogg']
+mymeta = dic['mymeta']
+mylang = dic['mylang']
+myhow2 = dic['myhow2']
+mysymb = dic['mysymb']
+mycols = dic['mycols']
+#
 kbenchlog = dic['kbenchlog']
 kbenchset = dic['kbenchset']
 
