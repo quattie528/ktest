@@ -120,3 +120,4 @@ Wes says html2table, in his book, p182
 ##### DIREKT ###############
 if __name__=='__main__':
 	pass
+	pass # this might be deleted
