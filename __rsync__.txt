@@ -1,2 +1,0 @@
-MACHINE : derrida8
-BEENDET : 2020-04-19 15:42:40
