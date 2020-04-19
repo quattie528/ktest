@@ -273,16 +273,15 @@ def headerconvert(var,headerdic):
 		return res
 
 ##### STRING to ??? ###############
-def str2txt4all(x,ex,mode): # gigi
-	gh = open(ex,mode,encoding='utf-8')
-	gh.write(x)
-	gh.flush()
-	gh.close
+def str2txt(x,ex): # gigi
+	with open(ex,'w',encoding='utf-8') as gh:
+		gh.write(x); gh.flush()
 	__tell_output(ex)
 	__bin_output(x,ex)
 
-def str2txt(x,ex): str2txt4all(x,ex,'w')
-def str2log(x,ex): str2txt4all(x,ex,'a')
+def str2log(x,ex):
+	with open(ex,'a',encoding='utf-8') as gh:
+		gh.write(x); gh.flush()
 
 ### STRING to LIST ###
 def str2lis(v):

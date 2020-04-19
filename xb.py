@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 ### MODULES ###
-#import datetime
+import datetime
 #import os
 #import pprint
 #
@@ -17,7 +17,7 @@ import xx
 
 ### VARIABLES ###
 DEBUG = True
-#DEBUG = False
+DEBUG = False
 
 #
 
@@ -112,6 +112,20 @@ def ein2aus(des,aux,msg=''):
 		print( '[do]',msg ) #d
 	return res
 
+
+def ord2aus(ordner,aux,msg=''):
+	dateien = os.listdir(ordner)
+	res = ''
+	zt = datetime.datetime(1,1,1,0,0,0)
+	for datei in dateien:
+		tmp = xf.mtime(ordner+datei)
+		if zt < tmp:
+			zt = tmp
+			res = datei
+	des = ordner + res
+	res = ein2aus(des,aux,msg)
+	return res
+
 #
 
 ############################
@@ -199,11 +213,9 @@ def stamm3obj(xls,tsv,blatt=0):
 
 ##### DIREKT ###############
 if __name__=='__main__':
-#	letztzeile(txt)
-	BOOKDATA2020 = 'D:/var/oracc/Oracle Content/BookData(Maki KIshimoto) (Maki Kishimoto)/'
-	BOOKDATA2020 += '0302_FY20 ISV Booking Data.xlsx'
-
-	tbl = xx.xls2tbl(BOOKDATA2020,'Lic&HW')
-	ausgabe = 'D:/var/spool/alles_bookdata_2020.tsv'
-	stamm3obj()
+	ord = 'D:/var/lib/bilan3/morn/2020/jpn/'
+	aux = 'D:/onedrive/zwischen/derivat/bilan2/TSEq.tsv'
+	x = ord2aus(ord,aux)
+	print( x )
+#	stamm3obj()
 	kbench.jetzt()

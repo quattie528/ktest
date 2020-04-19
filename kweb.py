@@ -30,6 +30,7 @@ from datsun import *
 
 #__pycache__/kweb_2020-03-29.py
 #pgui.FAILSAFE = True
+pgui.moveTo(100,100)
 
 ### KONSTANT ###
 wart_min = 3
@@ -40,6 +41,7 @@ WART4BRW = 3
 #
 NLPFAD = 'C:/Users/Katsushi/Downloads/'
 NLPFAD = 'C:/Users/katsu/Downloads/'
+
 
 #
 
@@ -212,7 +214,7 @@ def url2mff2txt(url,ausgabe):
 ###################################
 ### URL zu FIREFOX zu CLIPBOARD ###
 ###################################
-def url2mff2clip(url,brw='firefox'):
+def url2mff2clip(url,x=0,y=0,brw='firefox'):
 	brw = 'firefox'
 	brw = 'chrome'
 	if brw == 'chrome':
@@ -223,12 +225,15 @@ def url2mff2clip(url,brw='firefox'):
 	xu.sleep(WART4BRW)
 	
 	if brw == 'firefox':
-		xu.click(155,50)
+		if x == 0: x == 155
+		if y == 0: y == 50
+		xu.click(x,y)
 	elif brw == 'chrome':
-#		xu.click(10,20)
-		xu.click(65,40)
-	pgui.hotkey('alt','space')
-	pgui.press('x')
+		if x == 0: x == 65
+		if y == 0: y == 40
+		xu.click(x,y)
+#	pgui.hotkey('alt','space') # DON'T DO THIS !!! @ 2020-04-18
+#	pgui.press('x')            # DON'T DO THIS !!! @ 2020-04-18
 	for k in 'accw':
 		time.sleep(0.3)
 		pgui.hotkey('ctrl',k)
